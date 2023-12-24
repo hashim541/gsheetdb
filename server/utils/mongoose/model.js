@@ -6,12 +6,17 @@ const userSchema = new mongoose.Schema({
     email:String,
     password:String,
     APIKey:Array,
-    googleServiceAccountEmail:String,
-    googlePrivateKey:String,
     googleSheetsId:Array
 })
 
-const User  = mongoose.model('Users',userSchema)
+const User = mongoose.model('Users',userSchema)
 
+const APIKeySchema = new mongoose.Schema({
+    APIKey:String,
+    googleServiceClientEmail:String,
+    googlePrivateKey:String,
+})
 
-module.exports = {User}
+const APIKey = mongoose.model('ApiKeys',APIKeySchema)
+
+module.exports = { User, APIKey }

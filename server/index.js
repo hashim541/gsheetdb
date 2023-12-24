@@ -1,21 +1,33 @@
 const express = require('express')
-const {GoogleSpreadsheet} = require('google-spreadsheet')
-const { JWT} = require('google-auth-library')
+const { GoogleSpreadsheet } = require('google-spreadsheet')
+const { JWT } = require('google-auth-library')
 const cors = require('cors')
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
 
 const registerRouts = require('./routers/registerRoute')
 
 const app = express()
 const port = 3000
+const DB_Username = 'hashim00541x'
+const DB_Password = 'P72vzkRm2cd7XxMd'
+const DataBase = 'googleSheet'
 
 app.use(cors())
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json());
 
-app.use('/user',registerRouts)
-
 // 1xymyqdZ_1S5Nts6pe_dwe6PfHUXBIJsZFEepzHA4agI
+
+mongoose.connect(`mongodb+srv://${DB_Username}:${DB_Password}@sheet.bz4evue.mongodb.net/${DataBase}?retryWrites=true&w=majority`)
+.then(() => {
+  console.log('Connected to Database')
+})
+.catch((err) => {
+  console.log('Error connecting to Database :',err)
+})
+
+app.use('/user',registerRouts)
 
 app.get('/connectToGoogleSheet', async( req, res ) => {
     const sheetID=req.query.sheetID;
