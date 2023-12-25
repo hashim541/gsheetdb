@@ -1,32 +1,42 @@
-const mongoose = require('mongoose')
-const { User, APIKey } = require('../utils/mongoose/model')
-const { JWT } = require('google-auth-library')
 const bcrypt = require('bcrypt')
+
+const { User } = require('../utils/mongoose/model')
 const saltRound = 10;
 
 const registerUser = async( req, res ) => {
     const userRegisterData = req.body;
-
+    if(!userRegisterData.email){
+        return res.status(400).json({error:'Please provide an email'})
+    }
     try {
         await User.findOne({
             email:userRegisterData.email
         })
-        .then((result) => {
+        .then( ( result ) => {
 
             if( result === null ){
-                bcrypt.hash( userRegisterData.password, saltRound, (err, hash) => {
+                bcrypt.hash( userRegisterData.password, saltRound, ( err, hash ) => {
                     const newUser = new User({
                         username:userRegisterData.username,
                         email:userRegisterData.email,
                         password:hash
                     })
                     newUser.save()
-                    .then((result) => {
+                    .then( ( result ) => {
                         console.log('User registered Successfully')
-                        res.status(200).json({succuss:'User registered succussfully'})
+                        res.status(200).json({
+                            succuss:'User registered succussfully',
+                            user:{
+                                username:result.username,
+                                email:result.email,
+                                userAPIKeys:result.userAPIKeys,
+                                googleSheetsIds:result.googleSheetsIds
+                            }
+                        })
                     })
-                    .catch((error) => {
+                    .catch( ( error ) => {
                         console.log('Error in creating user :',error)
+                        res.status(400).json({error:'Cannot register user'})
                     })
                 })
             } else {
@@ -35,10 +45,10 @@ const registerUser = async( req, res ) => {
             }
 
         })
-        .catch((error) => {
+        .catch( ( error ) => {
             console.log('Error findOne in User :',error)
         })
-    } catch (error) {
+    } catch( error ) {
         console.log('Error registering a user :',error)
     }
 
@@ -51,20 +61,6 @@ const registerUser = async( req, res ) => {
 } 
 
 
-const authClient = async (clientEmail,privateKey) => {
-    const client = new JWT({
-        email:clientEmail,
-        key:privateKey,
-        scopes:[
-            'https://www.googleapis.com/auth/cloud-platform'
-        ]
-    })
-    try {
-        const response = await client.authorize();
-        return client
-    } catch (error) {
-        return res.status(400).json({error:'Error validating client. Please provide valid client email or private key'})
-    }
-}
+
 
 module.exports = {registerUser}
