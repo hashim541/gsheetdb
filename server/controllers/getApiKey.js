@@ -48,7 +48,7 @@ const getApiKey = async(req, res) => {
                         const APIKEY = { key:uuidv4(), active:true}
 
                         const newApiKey = new APIKey({
-                            APIKey:APIKEY.key,
+                            ApiKey:APIKEY.key,
                             googleServiceClientEmail:clientEmail,
                             googlePrivateKey:privateKey,
                             active:true,
@@ -59,11 +59,14 @@ const getApiKey = async(req, res) => {
                             console.log('APIkey created')
                             await User.findOneAndUpdate(
                                 {email:userData.email},
-                                {$push:{userAPIKeys:APIKEY}},
+                                {$push:{userApiKeys:APIKEY}},
                                 {new:true}
                             )
                             .then((result) => {
-                                return res.status(200).json({succuss:'APIkey created'})
+                                return res.status(200).json({
+                                    succuss:'APIkey created',
+                                    apiKey:APIKEY.key
+                                })
                             })
                             .catch((err) => {
                                 return res.status(400).json({error:'Error in pushing apikey'})

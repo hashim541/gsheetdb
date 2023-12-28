@@ -26,8 +26,8 @@ const login = async(req, res) => {
                         user:{
                             username:result.username,
                             email:result.email,
-                            userAPIKeys:result.userAPIKeys,
-                            googleSheetsIds:result.googleSheetsIds
+                            userApiKeys:result.userApiKeys,
+                            googleSheetIds:result.googleSheetIds
                         }
                     })
                 } else {

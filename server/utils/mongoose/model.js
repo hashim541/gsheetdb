@@ -5,14 +5,14 @@ const userSchema = new mongoose.Schema({
     username:String,
     email:String,
     password:String,
-    userAPIKeys:Array,
-    googleSheetsIds:Array
+    userApiKeys:Array,
+    googleSheetIds:Array
 })
 
 const User = mongoose.model('Users',userSchema)
 
 const APIKeySchema = new mongoose.Schema({
-    APIKey:String,
+    ApiKey:String,
     googleServiceClientEmail:Object,
     googlePrivateKey:Object,
     active:Boolean

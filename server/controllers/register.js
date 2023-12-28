@@ -29,8 +29,8 @@ const registerUser = async( req, res ) => {
                             user:{
                                 username:result.username,
                                 email:result.email,
-                                userAPIKeys:result.userAPIKeys,
-                                googleSheetsIds:result.googleSheetsIds
+                                userApiKeys:result.userApiKeys,
+                                googleSheetIds:result.googleSheetIds
                             }
                         })
                     })
@@ -41,7 +41,7 @@ const registerUser = async( req, res ) => {
                 })
             } else {
                 console.log('User with this Email already exists')
-                res.status(400).json({error:'User with this Email already exists'})
+                res.status(400).json({error:`User with ${userRegisterData.email} already exists`})
             }
 
         })

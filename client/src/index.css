@@ -12,7 +12,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+#root{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 a {
   font-weight: 500;
   color: #646cff;
@@ -54,6 +59,9 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+p{
+  color: #1a1a1a;
 }
 
 @media (prefers-color-scheme: light) {
