@@ -14,13 +14,20 @@ function App() {
       body:JSON.stringify({
         spreadSheetId:'11V0iILqRDt-K0NX6TH74YKGsE12-P-a-q-xQfTRGw2g',
         sheetIndex:0,
-        query:{'Ethnicity':'Latino'}
+        query:{'EEID':'E98765'},
+        data:{
+          'EEID':'E98765',
+          'Full Name':'Mohamed Hashim',
+          'Age':19,
+          'new':'new123'
+        },
+        // sheetHeader:['apple','Orange','Banan']
       })
     }
     
-  
+
     try {
-      const response = await fetch('http://localhost:3000/query/find',options)
+      const response = await fetch('http://localhost:3000/query/getHeader',options)
       const data = await response.json()
       setRes(JSON.stringify(data))
     } catch (error) {

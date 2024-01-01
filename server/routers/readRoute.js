@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
-const { find } = require('../controllers/readData')
+const { findOne } = require('../controllers/readData')
 
-router.post('/find',find)
+router.post('/findOne',findOne)
 
 module.exports = router
