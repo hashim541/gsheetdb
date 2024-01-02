@@ -19,12 +19,15 @@ const DataBase = 'googleSheet'
 const mongodbURI=`mongodb+srv://${DB_Username}:${DB_Password}@sheet.bz4evue.mongodb.net/${DataBase}?retryWrites=true&w=majority`
 const localURI=`mongodb://127.0.0.1:27017/holySheet`
 
-app.use(cors({
-  origin: ["https://upgraded-train-wpjgg9jw64r25gjw-5173.app.github.dev"]
-}))
+// app.use(compression({ threshold: '1b' }))
+
+app.use(cors())
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json());
 
+// {
+//   origin: ["https://upgraded-train-wpjgg9jw64r25gjw-5173.app.github.dev",'http://localhost:5173']
+// }
 // 1xymyqdZ_1S5Nts6pe_dwe6PfHUXBIJsZFEepzHA4agI
 // 11V0iILqRDt-K0NX6TH74YKGsE12-P-a-q-xQfTRGw2g
 
@@ -36,7 +39,6 @@ mongoose.connect(mongodbURI)
   console.log('Error connecting to Database :',err)
 })
 
-app.use(compression())
 
 app.use('/user',loginRouts)
 app.use('/user',registerRouts)

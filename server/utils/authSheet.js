@@ -2,7 +2,7 @@ const { APIKey } = require('../utils/mongoose/model');
 const { decrypt } = require('./hash/hash');
 const { JWT } = require('google-auth-library');
 const { GoogleSpreadsheet } = require('google-spreadsheet');
-const sheetCache = require('./nodeCache');
+const { sheetCache, apikeyCache } = require('./nodeCache');
 
 const getSheet = async (reqData, res) => {
     try {
@@ -18,8 +18,14 @@ const getSheet = async (reqData, res) => {
         }
 
         const str = `${reqData.apikey},${reqData.spreadSheetId},${reqData.sheetIndex}`
-        const result = await APIKey.findOne({ ApiKey: reqData.apikey })
-
+        
+        var result = null
+        if(apikeyCache.get(reqData.apikey)){
+            result=apikeyCache.get(reqData.apikey)
+        }else{
+            result = await APIKey.findOne({ ApiKey: reqData.apikey })
+            apikeyCache.set(reqData.apikey,result,300)
+        }
         if (!result) {
             throw new Error('Error finding apikey')
         }
@@ -53,12 +59,15 @@ const getSheet = async (reqData, res) => {
         await doc.loadInfo()
 
         const newSheet = doc.sheetsByIndex[reqData.sheetIndex]
-        await newSheet.loadHeaderRow()
 
         if (!newSheet) {
             throw new Error('Sheet not found')
         }
-        await newSheet.getRows()
+        const [headers,rows] = await Promise.all([
+            newSheet.loadHeaderRow(),
+            newSheet.getRows(),
+        ]);
+        newSheet.rows = rows
         console.log('')
         console.log('New sheet cache')
         
@@ -66,14 +75,14 @@ const getSheet = async (reqData, res) => {
         sheetCache.set(str, newSheet, 1800)
         return newSheet
     } catch (error) {
-        console.error('getSheet error:', error.message)
+        console.error('getSheet error:', error)
         res.status(500).json({ error: error.message })
     }
 };
 
 const updateSheet = (reqData, updatedsheet) => {
     const str = `${reqData.apikey},${reqData.spreadSheetId},${reqData.sheetIndex}`;
-    sheetCache.set(str, updatedsheet,1800)
+    sheetCache.set(str, updatedsheet)
     console.log('sheet updated')
 }
 

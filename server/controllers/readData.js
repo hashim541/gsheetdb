@@ -18,7 +18,8 @@ const findOne = async(req, res) => {
 
         const headers = sheet.headerValues
         
-        const rows = await sheet.getRows()
+        const rows = sheet.rows
+ 
         const row = rows.find(row => row.get(key) === value);
         if (row) {
             const result = formatData(row, headers)
@@ -28,8 +29,8 @@ const findOne = async(req, res) => {
             res.status(404).json(null);
         }
     }
-    
     console.timeEnd('findOne')
+    
 }
 
 const findMany = async(req, res) => {
@@ -46,22 +47,16 @@ const findMany = async(req, res) => {
     const sheet = await getSheet(reqData, res)
     if(sheet){
         const headers = sheet.headerValues
-        const rows = await sheet.getRows()
-        const filteredRow = rows.filter(row => {
-            if(row.get(key) == value){
-                return row
-            }
-        })
+        const rows = sheet.rows
+        const result = rows
+            .filter((row) => row.get(key) == value)
+            .map((row) => formatData(row, headers))
 
-        const result = []
-        filteredRow.map(row => {
-            
-            const filteredData = formatData(row, headers)
-            result.push(filteredData)
-        })
-        res.status(200).json(result);
+
+        res.status(200).json(result)
     }
     console.timeEnd('findMany')
+    // console.log(process.memoryUsage())
 }
 
 module.exports = { findOne, findMany }

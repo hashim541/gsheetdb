@@ -15,8 +15,9 @@
 #root{
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  padding: 20px;
+  gap:20px;
 }
 a {
   font-weight: 500;
@@ -29,9 +30,6 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   min-width: 320px;
   min-height: 100vh;
   background-color: white;
@@ -60,8 +58,10 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
-p{
+div{
   color: #1a1a1a;
+  font-family: monospace;
+  font-size: 1rem;
 }
 
 @media (prefers-color-scheme: light) {
