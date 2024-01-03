@@ -1,7 +1,7 @@
 const {getSheet,updateSheet} = require('../utils/authSheet')
 
 const getHeader = async(req, res) => {
-    console.time('getHeader')
+
     const reqData = {
         apikey:req.headers['apikey'],
         spreadSheetId:req.body.spreadSheetId,
@@ -13,11 +13,11 @@ const getHeader = async(req, res) => {
         const headers = sheet.headerValues
         res.status(200).json(headers);
     }
-    console.timeEnd('getHeader')
+
 }
 
 const setHeader = async(req, res) => {
-    console.time('setHeader')
+ 
     const reqData = {
         apikey:req.headers['apikey'],
         spreadSheetId:req.body.spreadSheetId,
@@ -34,7 +34,7 @@ const setHeader = async(req, res) => {
         }
         res.status(200).send(JSON.stringify(reqData.sheetHeader));
     }
-    console.timeEnd('setHeader')
+
 }
 
 module.exports = { getHeader, setHeader }

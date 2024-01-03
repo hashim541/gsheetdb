@@ -37,9 +37,6 @@ const getSheet = async (reqData, res) => {
         const sheet = sheetCache.get(str)
 
         if (sheet) {
-            console.log('')
-            console.log('Sheet cache hit')
-
             return sheet
         }
 
@@ -68,9 +65,7 @@ const getSheet = async (reqData, res) => {
             newSheet.getRows(),
         ]);
         newSheet.rows = rows
-        console.log('')
-        console.log('New sheet cache')
-        
+
 
         sheetCache.set(str, newSheet, 1800)
         return newSheet

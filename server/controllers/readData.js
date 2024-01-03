@@ -2,22 +2,13 @@ const {getSheet} = require('../utils/authSheet')
 const formatData = require('../utils/formatData')
 
 const findOne = async(req, res) => {
-    console.time('findOne')
-    const reqData = {
-        apikey:req.headers['apikey'],
-        spreadSheetId:req.body.spreadSheetId,
-        sheetIndex:req.body.sheetIndex,
-        query:req.body.query,
-    }
-    if(!req.body.query.return){
-        reqData.return = []
-    }else{
-        reqData.return = req.body.query.return
-    }
-    // console.log(reqData)
+    req.body.apikey=req.headers['apikey']
+    req.body.query.return = req.body.query.return || []
+    const reqData = req.body
+    console.log(reqData)
     
-    const key = Object.keys(reqData.query)[0]
-    const value = reqData.query[key]
+    const key = reqData.query.header
+    const value = reqData.query.value
 
     const sheet = await getSheet(reqData, res)
     if(sheet){
@@ -28,32 +19,34 @@ const findOne = async(req, res) => {
  
         const row = rows.find(row => row.get(key) === value);
         if (row) {
-            const result = formatData(row, headers,reqData.return)
+            const result = formatData(row, headers,reqData.query.return)
         
             res.status(200).json(result);
         } else {
             res.status(404).json(null);
         }
     }
-    console.timeEnd('findOne')
+
     
 }
 
 const findMany = async(req, res) => {
-    console.time('findMany')
+
     const reqData = {
         apikey:req.headers['apikey'],
         spreadSheetId:req.body.spreadSheetId,
         sheetIndex:req.body.sheetIndex,
-        query:req.body.query
+        query:req.body.query,
     }
-    if(!req.body.query.return){
-        reqData.return = []
+    if(!reqData.query.return){
+        reqData.query.return = []
     }else{
-        reqData.return = req.body.query.return
+        reqData.query.return = req.body.query.return
     }
-    const key = Object.keys(reqData.query)[0]
-    const value = reqData.query[key]
+
+    
+    const key = reqData.query.header
+    const value = reqData.query.value
 
     const sheet = await getSheet(reqData, res)
     if(sheet){
@@ -61,12 +54,12 @@ const findMany = async(req, res) => {
         const rows = sheet.rows
         const result = rows
             .filter((row) => row.get(key) == value)
-            .map((row) => formatData(row, headers,reqData.return))
+            .map((row) => formatData(row, headers,reqData.query.return))
 
 
         res.status(200).json(result)
     }
-    console.timeEnd('findMany')
+
     // console.log(process.memoryUsage())
 }
 
