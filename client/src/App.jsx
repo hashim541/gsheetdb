@@ -23,7 +23,7 @@ function App() {
         spreadSheetId:'11V0iILqRDt-K0NX6TH74YKGsE12-P-a-q-xQfTRGw2g',
         // spreadSheetId:'1BXNEpTaOQUq4hOL-163PIb1jaWKYrtwE5Fk4e2dHp68',
         sheetIndex:0,
-        query:{'Gender':'Male',return:[]},
+        query:{header:'Gender',value:'Male',return:[]},
         data:{
           'EEID':'E98765',
           'Full Name':'Mohamed Hashim',
@@ -36,7 +36,7 @@ function App() {
     
 
     try {
-      const response = await fetch(gurl+'/query/findMany',options)
+      const response = await fetch(url+'/query/findOne',options)
       const data = await response.json()
       setRes(JSON.stringify(data))
     } catch (error) {
