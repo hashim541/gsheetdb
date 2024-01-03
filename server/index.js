@@ -19,7 +19,7 @@ const DataBase = 'googleSheet'
 const mongodbURI=`mongodb+srv://${DB_Username}:${DB_Password}@sheet.bz4evue.mongodb.net/${DataBase}?retryWrites=true&w=majority`
 const localURI=`mongodb://127.0.0.1:27017/holySheet`
 
-// app.use(compression({ threshold: '1b' }))
+app.use(compression({ threshold: '1b' }))
 
 app.use(cors())
 app.use(bodyParser.urlencoded({extended:true}))

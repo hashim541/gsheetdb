@@ -7,8 +7,14 @@ const findOne = async(req, res) => {
         apikey:req.headers['apikey'],
         spreadSheetId:req.body.spreadSheetId,
         sheetIndex:req.body.sheetIndex,
-        query:req.body.query
+        query:req.body.query,
     }
+    if(!req.body.query.return){
+        reqData.return = []
+    }else{
+        reqData.return = req.body.query.return
+    }
+    // console.log(reqData)
     
     const key = Object.keys(reqData.query)[0]
     const value = reqData.query[key]
@@ -22,7 +28,7 @@ const findOne = async(req, res) => {
  
         const row = rows.find(row => row.get(key) === value);
         if (row) {
-            const result = formatData(row, headers)
+            const result = formatData(row, headers,reqData.return)
         
             res.status(200).json(result);
         } else {
@@ -41,6 +47,11 @@ const findMany = async(req, res) => {
         sheetIndex:req.body.sheetIndex,
         query:req.body.query
     }
+    if(!req.body.query.return){
+        reqData.return = []
+    }else{
+        reqData.return = req.body.query.return
+    }
     const key = Object.keys(reqData.query)[0]
     const value = reqData.query[key]
 
@@ -50,7 +61,7 @@ const findMany = async(req, res) => {
         const rows = sheet.rows
         const result = rows
             .filter((row) => row.get(key) == value)
-            .map((row) => formatData(row, headers))
+            .map((row) => formatData(row, headers,reqData.return))
 
 
         res.status(200).json(result)

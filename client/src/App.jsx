@@ -4,7 +4,7 @@ import { useState } from "react";
 function App() {
   const [res,setRes]=useState(JSON.stringify('hey'))
   async function handleForm() {
-    const gurl='https://upgraded-train-wpjgg9jw64r25gjw-3000.app.github.dev'
+    const gurl='https://verbose-succotash-x7qvv9qj6942vv9j-3000.app.github.dev'
     const url = 'http://localhost:3000'
     console.log('send');
     const options = {
@@ -23,7 +23,7 @@ function App() {
         spreadSheetId:'11V0iILqRDt-K0NX6TH74YKGsE12-P-a-q-xQfTRGw2g',
         // spreadSheetId:'1BXNEpTaOQUq4hOL-163PIb1jaWKYrtwE5Fk4e2dHp68',
         sheetIndex:0,
-        query:{'Gender':'Male'},
+        query:{'Gender':'Male',return:[]},
         data:{
           'EEID':'E98765',
           'Full Name':'Mohamed Hashim',
@@ -36,7 +36,7 @@ function App() {
     
 
     try {
-      const response = await fetch(url+'/query/findMany',options)
+      const response = await fetch(gurl+'/query/findMany',options)
       const data = await response.json()
       setRes(JSON.stringify(data))
     } catch (error) {
