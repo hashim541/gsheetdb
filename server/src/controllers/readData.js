@@ -5,7 +5,6 @@ const findOne = async(req, res) => {
     req.body.apikey=req.headers['apikey']
     req.body.query.return = req.body.query.return || []
     const reqData = req.body
-    console.log(reqData)
     
     const key = reqData.query.header
     const value = reqData.query.value
@@ -32,18 +31,9 @@ const findOne = async(req, res) => {
 
 const findMany = async(req, res) => {
 
-    const reqData = {
-        apikey:req.headers['apikey'],
-        spreadSheetId:req.body.spreadSheetId,
-        sheetIndex:req.body.sheetIndex,
-        query:req.body.query,
-    }
-    if(!reqData.query.return){
-        reqData.query.return = []
-    }else{
-        reqData.query.return = req.body.query.return
-    }
-
+    req.body.apikey=req.headers['apikey']
+    req.body.query.return = req.body.query.return || []
+    const reqData = req.body
     
     const key = reqData.query.header
     const value = reqData.query.value

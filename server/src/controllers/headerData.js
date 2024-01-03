@@ -2,11 +2,8 @@ const {getSheet,updateSheet} = require('../utils/authSheet')
 
 const getHeader = async(req, res) => {
 
-    const reqData = {
-        apikey:req.headers['apikey'],
-        spreadSheetId:req.body.spreadSheetId,
-        sheetIndex:req.body.sheetIndex
-    }
+    req.body.apikey=req.headers['apikey']
+    const reqData = req.body
 
     const sheet = await getSheet(reqData, res)
     if(sheet){
@@ -18,12 +15,8 @@ const getHeader = async(req, res) => {
 
 const setHeader = async(req, res) => {
  
-    const reqData = {
-        apikey:req.headers['apikey'],
-        spreadSheetId:req.body.spreadSheetId,
-        sheetIndex:req.body.sheetIndex,
-        sheetHeader:req.body.sheetHeader
-    }
+    req.body.apikey=req.headers['apikey']
+    const reqData = req.body
     const sheet =await getSheet(reqData, res)
     if(sheet){
         const headers = sheet.headerValues

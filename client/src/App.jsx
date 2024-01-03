@@ -6,6 +6,7 @@ function App() {
   async function handleForm() {
     const gurl='https://verbose-succotash-x7qvv9qj6942vv9j-3000.app.github.dev'
     const url = 'http://localhost:3000'
+    const liveurl='https://holy-sheet.onrender.com'
     console.log('send');
     const options = {
       method:'POST',
@@ -23,7 +24,7 @@ function App() {
         spreadSheetId:'11V0iILqRDt-K0NX6TH74YKGsE12-P-a-q-xQfTRGw2g',
         // spreadSheetId:'1BXNEpTaOQUq4hOL-163PIb1jaWKYrtwE5Fk4e2dHp68',
         sheetIndex:0,
-        query:{header:'Gender',value:'Male',return:[]},
+        query:{header:'EEID',value:'E98765',unique:'EEID',return:[]},
         data:{
           'EEID':'E98765',
           'Full Name':'Mohamed Hashim',

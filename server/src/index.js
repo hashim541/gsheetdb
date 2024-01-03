@@ -49,6 +49,8 @@ app.use('/query',readRouts)
 app.use('/query',createRouts)
 app.use('/query',headerRouts)
 
+app.get('/',(req,res)=>{res.send('welcome to ( Google sheet ) as a database')})
+
 
 app.listen(port,() => {
     console.log(`server running on port ${port}`)

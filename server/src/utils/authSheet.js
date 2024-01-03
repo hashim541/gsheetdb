@@ -75,8 +75,13 @@ const getSheet = async (reqData, res) => {
     }
 };
 
-const updateSheet = (reqData, updatedsheet) => {
+const updateSheet = async(reqData, updatedsheet) => {
     const str = `${reqData.apikey},${reqData.spreadSheetId},${reqData.sheetIndex}`;
+    const [headers,rows] = await Promise.all([
+        updatedsheet.loadHeaderRow(),
+        updatedsheet.getRows(),
+    ]);
+    updatedsheet.rows = rows
     sheetCache.set(str, updatedsheet)
     console.log('sheet updated')
 }
