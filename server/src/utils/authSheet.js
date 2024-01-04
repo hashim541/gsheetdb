@@ -83,6 +83,7 @@ const updateSheet = async(reqData, updatedsheet) => {
     ]);
     updatedsheet.rows = rows
     sheetCache.set(str, updatedsheet)
+    
     console.log('sheet updated')
 }
 
