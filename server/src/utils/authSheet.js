@@ -70,17 +70,14 @@ const getSheet = async (reqData, res) => {
         sheetCache.set(str, newSheet, 1800)
         return newSheet
     } catch (error) {
-        console.error('getSheet error:', error)
+        console.error('getSheet error:', error.message)
         res.status(500).json({ error: error.message })
     }
 };
 
 const updateSheet = async(reqData, updatedsheet) => {
     const str = `${reqData.apikey},${reqData.spreadSheetId},${reqData.sheetIndex}`;
-    const [headers,rows] = await Promise.all([
-        updatedsheet.loadHeaderRow(),
-        updatedsheet.getRows(),
-    ]);
+    const rows = await updatedsheet.getRows()
     updatedsheet.rows = rows
     sheetCache.set(str, updatedsheet)
     

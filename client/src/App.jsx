@@ -45,7 +45,7 @@ function App() {
     
 
     try {
-      const response = await fetch(gurl+'/query/createMany',options)
+      const response = await fetch(url+'/query/createMany',options)
       const data = await response.json()
       setRes(JSON.stringify(data))
     } catch (error) {
