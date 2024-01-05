@@ -4,9 +4,11 @@ import Navbar from './components/Navbar';
 const AuthRoutes = () => {
     return (
         <>
-            <main className='landing-main'>
+            <main className='main'>
                 <Navbar />
-                <Outlet />
+                <main className="sub-main">
+                    <Outlet />
+                </main>
             </main>
         </>
     );
