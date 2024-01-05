@@ -33,18 +33,18 @@ const createOne = async(req, res) => {
         res.status(400).json({error:error.message.split('\n').join('')})
     }
 
-
 }
+
 const createMany = async (req, res) => {
+    
+    req.body.apikey = req.headers['apikey'];
+    const reqData = req.body;
+    const key = reqData.query.unique;
+    const sheet = await getSheet(reqData, res);
+    let dataCreated = 0;
+    let dataAlreadyExists = 0;
+    
     try {
-        req.body.apikey = req.headers['apikey'];
-
-        const reqData = req.body;
-        const key = reqData.query.unique;
-        const sheet = await getSheet(reqData, res);
-        let dataCreated = 0;
-        let dataAlreadyExists = 0;
-
         if (sheet) {
             if (!key) {
 
