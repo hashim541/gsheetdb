@@ -1,5 +1,6 @@
 import {Link} from 'react-router-dom'
-import Logoimg from '../../../../asset/logo.png'
+import Logoimg from '../../../../asset/images/logo.png'
+import { LoginBtn, RegisterBtn } from './Buttons'
 
 const Navbar = ()=>{
     return(
@@ -7,13 +8,8 @@ const Navbar = ()=>{
             <Link to='/' className='logo'>
                 <img src={Logoimg} alt="logo" />
             </Link>
-            <Link to = '/login'>
-                <button className="login btn">Login</button>
-            </Link>
-
-            <Link to = '/register'>
-                <button className="register btn">Register</button>
-            </Link>
+            <LoginBtn x={20}/>
+            <RegisterBtn x={20}/>
         </nav>
     )
 }
