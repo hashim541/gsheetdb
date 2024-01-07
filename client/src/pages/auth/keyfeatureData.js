@@ -9,7 +9,7 @@ const keyfeatures = [
     {
         id:1,
         title:'Familiar User Interface',
-        desc:`Experience a user-friendly interface resembling Excel for intuitive and familiar data navigation.`,
+        desc:`Experience a user-friendly interface for intuitive and familiar data navigation.`,
         svg:userSvg
     },
     {
