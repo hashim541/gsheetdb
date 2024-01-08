@@ -112,44 +112,41 @@ h4{
   position: relative;
 }
 .hero-p{
-  line-height: 30px;
+  /* line-height: 30px; */
 }
 .hero-text{
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(2px);
   align-self: flex-end;
-  margin-bottom: 7vw;
+  margin-bottom: 7vh;
   width: 50%;
   display: flex;
   flex-direction: column;
   gap: 20px;
   border-radius: 15px;
 }
-.hero-gr{
+.gr1{
   font-weight: 900;
+  -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  background-image:linear-gradient(90deg,rgb(0, 255, 0),rgb(0, 128, 0))
 }
-.gr1{
-  background-image:linear-gradient(90deg,rgb(0, 255, 0),rgb(0, 128, 0)) ;
-  /* filter: drop-shadow(0px 0px 10px rgb(0, 255, 0)); */
-}
-
 .gr2{
   background-image: linear-gradient(90deg, rgb(255, 0, 0),rgb(0, 0, 255));
   /* text-shadow: 2px 2px 4px rgba(255 , 0, 0, 0.5), 4px 4px 6px rgba(0, 0, 255, 0.5); */
 }
 .hero-img{
   align-self: flex-end;
-  width: 60%;
-  margin-left: auto;
-  max-width: 700px;
-  margin-bottom: 135px;
+  width: 50%;
+  /* margin-bottom: 135px; */
   transform: scaleX(-100%);
 }
 .hero-image{
   width: 100%;
+  max-width: 700px;
+
 }
 
 .landing-section{
