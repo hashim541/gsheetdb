@@ -3,31 +3,34 @@ import AuthRoutes from './pages/auth/AuthRoutes';
 import LandingPage from './pages/auth/LandingPage'
 import LoginPage from './pages/auth/LoginPage'
 import RegisterPage from './pages/auth/RegisterPage'
+import { AppProvider } from './dataContext/AppContext';
 
 function App(){
   return(
     <>
-      <Router>
-        <Routes>
+      <AppProvider>
+        <Router>
+            <Routes>
 
-          <Route path="/" element={<AuthRoutes/>}>
-            <Route path='/' element={<LandingPage />} />
-            <Route path='/login' element={<LoginPage />}/>
-            <Route path='/register' element={<RegisterPage />} />
-          </Route>
+              <Route path="/" element={<AuthRoutes/>}>
+                <Route path='/' element={<LandingPage />} />
+                <Route path='/login' element={<LoginPage />}/>
+                <Route path='/register' element={<RegisterPage />} />
+              </Route>
 
-          {/* <Route>
-            <Route path='/dashboard' element={<Dashboard />} />
-            <Route path='/productList' />
-            <Route path='/productDetails' />
-            <Route path='/addProduct' />
-            <Route path='/notification' />
-            <Route path='/setting' />
-            <Route path='*' element={<Dashboard/>} />
-          </Route> */}
+              {/* <Route>
+                <Route path='/dashboard' element={<Dashboard />} />
+                <Route path='/productList' />
+                <Route path='/productDetails' />
+                <Route path='/addProduct' />
+                <Route path='/notification' />
+                <Route path='/setting' />
+                <Route path='*' element={<Dashboard/>} />
+              </Route> */}
 
-        </Routes>
-      </Router>
+          </Routes>
+        </Router>
+      </AppProvider>
     </>
   )
 }
