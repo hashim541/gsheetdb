@@ -3,12 +3,12 @@ import { LandingHero, LandingApi, LandingKeyfeature, LandingGetStarted } from '.
 
 const LandingPage = () => {
     return(
-        <>
+        <main className='sub-main'>
             <LandingHero />
             <LandingApi/>
             <LandingKeyfeature />
             <LandingGetStarted />
-        </>
+        </main>
     );
 }
 

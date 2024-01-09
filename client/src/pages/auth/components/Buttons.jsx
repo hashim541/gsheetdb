@@ -6,7 +6,7 @@ export const LoginBtn = ({x}) => {
             initial={{ opacity: 0, x: x}} 
             whileInView={{ opacity: 1, x: 0}} 
             viewport={{ once: true }}
-            transition={{ type: "spring", stiffness: 400, damping: 10, duration: 1, delay: 1 }}>
+            transition={{ type: "spring", stiffness: 400, damping: 10, duration: 1 }}>
             <Link to = '/login'>
                 <motion.button className="login btn"
                 whileHover={{ scale: 1.1 }}
@@ -23,7 +23,7 @@ export const RegisterBtn = ({x}) => {
             initial={{ opacity: 0, x: x }} 
             whileInView={{ opacity: 1, x: 0 }} 
             viewport={{ once: true }}
-            transition={{ type: "spring", stiffness: 400, damping: 10, duration: 1, delay: 1.5 }}>
+            transition={{ type: "spring", stiffness: 400, damping: 10, duration: 1, delay: .5 }}>
             <Link to = '/register'>
                 <motion.button className="register btn"
                 whileHover={{ scale: 1.1 }}

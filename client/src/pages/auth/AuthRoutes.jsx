@@ -8,9 +8,8 @@ const AuthRoutes = () => {
             <main className='main'>
 
                 <Navbar />
-                <main className="sub-main">
-                    <Outlet />
-                </main>
+                <Outlet />
+                
             </main>
         </>
     );
