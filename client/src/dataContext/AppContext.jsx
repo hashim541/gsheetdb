@@ -14,12 +14,25 @@ export const AppProvider = ({ children }) => {
             setScrollTop(false)
         }
     }
-
+    const convertFormData = (form) => {
+        const formData = new FormData(form)
+        const data ={}
+        for (const [key, value] of formData) {
+            data[key]=value
+        }
+        return data 
+    }
+    const handelFormSubmit = (e, authType) => {
+        e.preventDefault()
+        const data = convertFormData(e.target)
+        console.log(data,authType)
+    }
     
 
 // all data
     const contextValue = {
-        scrollTop,handelWindowHeight
+        scrollTop,handelWindowHeight,
+        handelFormSubmit
     };
 
     return (
