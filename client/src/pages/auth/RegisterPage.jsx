@@ -14,7 +14,7 @@ const Register = () => {
             <div className="auth">
                 <div className="auth-div">
                     <h3>REGISTER</h3>
-                    <form className='auth-form' action="" onSubmit={()=>handelFormSubmit(e,authType)}>
+                    <form className='auth-form' action="" onSubmit={(e)=>handelFormSubmit(e,authType)}>
                         <InputDiv field={'username'} name={'username'} placeHolder={"Your Name"} label={'User Name'}/>
                         <InputDiv field={'email'} name={'email'} placeHolder={"example@gmail.com"} label={'Email'}/>
                         <InputDiv field={'password'} name={'password'} placeHolder={"123456"} label={'password'}/>

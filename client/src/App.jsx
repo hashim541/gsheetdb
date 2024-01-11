@@ -65,7 +65,7 @@ export default App
 //         spreadSheetId:'11V0iILqRDt-K0NX6TH74YKGsE12-P-a-q-xQfTRGw2g',
 //         // spreadSheetId:'1BXNEpTaOQUq4hOL-163PIb1jaWKYrtwE5Fk4e2dHp68',
 //         sheetIndex:0,
-//         query:{header:'EEID',value:'E98765',unique:'',return:[]},
+//         query:{header:'Gender',value:'Male',unique:'',return:[]},
 //         data:[
 //           {
 //             'EEID':'E98765',
@@ -86,7 +86,7 @@ export default App
     
 
 //     try {
-//       const response = await fetch(url+'/query/createMany',options)
+//       const response = await fetch(liveurl+'/query/findMany',options)
 //       const data = await response.json()
 //       setRes(JSON.stringify(data))
 //     } catch (error) {
@@ -98,8 +98,10 @@ export default App
 
 //   return (
 //     <>
-//       <button onClick={()=>handleForm()}>click</button>
+//     <main className="auth">
+//       <button className="btn login" onClick={()=>handleForm()}>click</button>
 //       <pre>{JSON.stringify(JSON.parse(res),null,2)}</pre>
+//     </main>
 //     </>
 //   )
 // }

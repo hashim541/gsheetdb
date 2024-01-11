@@ -1,47 +1,40 @@
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const { User } = require('../utils/mongoose/model');
 
-const { User } = require('../utils/mongoose/model')
+const login = async (req, res) => {
+  try {
+    const userData = req.body;
+    console.log(req.body);
 
-const login = async(req, res) => {
-    const userData = req.body
-
-    if(!userData.email && !userData.password){
-        return res.status(400).json({error:'Please provide an email or password'})
+    if (!userData.email || !userData.password) {
+      return res.status(400).json({ error: 'Please provide both email and password' });
     }
 
-    try {
-        await User.findOne(
-            {email:userData.email}
-        )
-        .then((result) => {
+    const result = await User.findOne({ email: userData.email });
 
-            if(result === null){
-                return res.status(400).json({error:`Could not finding ${userData.email} in database`})
-            }
-
-            bcrypt.compare(userData.password, result.password, (err, isEqual) => {
-                if(isEqual){
-                    return res.status(200).json({
-                        succuss:'User loged in',
-                        user:{
-                            username:result.username,
-                            email:result.email,
-                            userApiKeys:result.userApiKeys,
-                            googleSheetIds:result.googleSheetIds
-                        }
-                    })
-                } else {
-                    return res.status(400).json({error:'Your password is Incorrect'})
-                }
-            })
-            
-        })
-        .catch((error) => {
-            return res.status(400).json({error:`Cannot find user with ${userData.email}`})
-        })
-    } catch (error) {
-        console.log('Error while loging user :',error)
+    if (!result) {
+      return res.status(400).json({ error: `Could not find ${userData.email} in the database` });
     }
-}
 
-module.exports = { login }
+    const isEqual = await bcrypt.compare(userData.password, result.password);
+
+    if (isEqual) {
+      return res.status(200).json({
+        success: 'User logged in',
+        user: {
+          username: result.username,
+          email: result.email,
+          userApiKeys: result.userApiKeys,
+          googleSheetIds: result.googleSheetIds,
+        },
+      });
+    } else {
+      return res.status(400).json({ error: 'Incorrect password' });
+    }
+  } catch (error) {
+    console.error('Error while logging in user:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+module.exports = { login };

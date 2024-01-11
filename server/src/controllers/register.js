@@ -1,69 +1,47 @@
-const bcrypt = require('bcrypt')
-
-
-const { User } = require('../utils/mongoose/model')
+const bcrypt = require('bcrypt');
+const { User } = require('../utils/mongoose/model');
 const saltRound = 10;
 
-
-const registerUser = async( req, res ) => {
+const registerUser = async (req, res) => {
+  try {
     const userRegisterData = req.body;
 
-    if(!userRegisterData.email){
-        return res.status(400).json({error:'Please provide an email'})
+    if (!userRegisterData.email) {
+      return res.status(400).json({ error: 'Please provide an email' });
     }
 
-    try {
+    const existingUser = await User.findOne({ email: userRegisterData.email });
 
-        await User.findOne({
-            email:userRegisterData.email
-        })
-        .then( ( result ) => {
-
-            if( result === null ){
-
-                bcrypt.hash( userRegisterData.password, saltRound, ( err, hash ) => {
-                    const newUser = new User({
-                        username:userRegisterData.username,
-                        email:userRegisterData.email,
-                        password:hash
-                    })
-
-                    newUser.save()
-                    .then( ( result ) => {
-                        console.log('User registered Successfully')
-
-
-                        res.status(200).json({
-                            succuss:'User registered succussfully',
-                            user:{
-                                username:result.username,
-                                email:result.email,
-                                userApiKeys:result.userApiKeys,
-                                googleSheetIds:result.googleSheetIds
-                            }
-                        })
-                    })
-                    .catch( ( error ) => {
-                        console.log('Error in creating user :',error)
-                        res.status(400).json({error:'Cannot register user'})
-                    })
-
-                })
-            } else {
-                console.log('User with this Email already exists')
-                res.status(400).json({error:`User with ${userRegisterData.email} already exists`})
-            }
-
-        })
-        .catch( ( error ) => {
-            console.log('Error findOne in User :',error)
-        })
-    } catch( error ) {
-        console.log('Error registering a user :',error)
+    if (existingUser) {
+      console.log('User with this Email already exists');
+      return res.status(400).json({ error: `User with ${userRegisterData.email} already exists` });
     }
-} 
 
+    const hashedPassword = await bcrypt.hash(userRegisterData.password, saltRound);
 
+    const newUser = new User({
+      username: userRegisterData.username,
+      email: userRegisterData.email,
+      password: hashedPassword,
+    });
 
+    const savedUser = await newUser.save();
 
-module.exports = {registerUser}
+    console.log('User registered Successfully');
+
+    return res.status(200).json({
+      success: 'User registered successfully',
+      user: {
+        username: savedUser.username,
+        email: savedUser.email,
+        userApiKeys: savedUser.userApiKeys,
+        googleSheetIds: savedUser.googleSheetIds,
+      },
+    });
+  } catch (error) {
+    console.error('Error registering a user:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+module.exports = { registerUser };

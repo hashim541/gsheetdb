@@ -8,13 +8,15 @@ const getSheet = async (reqData, res) => {
     try {
 
         if(reqData.apikey === undefined){
-            return res.status(400).json({error:'Please provide an apikey in the headers'})
+            console.log('hey')
+            throw new Error('Please provide an apikey in the headers')
         }
         if(reqData.spreadSheetId === undefined){
-            return res.status(400).json({error:'Please provide an spread sheet id'})
+            console.log('heyss')
+            throw new Error('Please provide an spread sheet id')
         }
         if(reqData.sheetIndex === undefined){
-            return res.status(400).json({error:'Please provide an sheet index'})
+            throw new Error('Please provide an sheet index')
         }
 
         const str = `${reqData.apikey},${reqData.spreadSheetId},${reqData.sheetIndex}`
@@ -71,7 +73,7 @@ const getSheet = async (reqData, res) => {
         return newSheet
     } catch (error) {
         console.error('getSheet error:', error.message)
-        res.status(500).json({ error: error.message })
+        res.status(400).json({ error: error.message })
     }
 };
 

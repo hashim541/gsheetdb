@@ -37,7 +37,6 @@ const findMany = async(req, res) => {
     
     const key = reqData.query.header
     const value = reqData.query.value
-
     const sheet = await getSheet(reqData, res)
     if(sheet){
         const headers = sheet.headerValues
