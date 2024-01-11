@@ -2,6 +2,7 @@ import {Link} from 'react-router-dom'
 import {motion} from 'framer-motion'
 import AuthImages from './components/AuthImages'
 import InputDiv from './components/InputDiv'
+import {useNavigate} from 'react-router-dom'
 
 import AppContext from '../../dataContext/AppContext'
 import { useContext } from 'react'
@@ -9,12 +10,13 @@ import { useContext } from 'react'
 const Register = () => {
     const {handelFormSubmit} = useContext(AppContext)
     const authType='register'
+    const navigate = useNavigate()
     return(
         <main className='auth-main'>
             <div className="auth">
                 <div className="auth-div">
                     <h3>REGISTER</h3>
-                    <form className='auth-form' action="" onSubmit={(e)=>handelFormSubmit(e,authType)}>
+                    <form className='auth-form' action="" onSubmit={(e)=>handelFormSubmit(e,authType,navigate)}>
                         <InputDiv field={'username'} name={'username'} placeHolder={"Your Name"} label={'User Name'}/>
                         <InputDiv field={'email'} name={'email'} placeHolder={"example@gmail.com"} label={'Email'}/>
                         <InputDiv field={'password'} name={'password'} placeHolder={"123456"} label={'password'}/>

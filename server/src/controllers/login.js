@@ -4,7 +4,6 @@ const { User } = require('../utils/mongoose/model');
 const login = async (req, res) => {
   try {
     const userData = req.body;
-    console.log(req.body);
 
     if (!userData.email || !userData.password) {
       return res.status(400).json({ error: 'Please provide both email and password' });

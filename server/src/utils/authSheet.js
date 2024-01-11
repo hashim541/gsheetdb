@@ -8,11 +8,9 @@ const getSheet = async (reqData, res) => {
     try {
 
         if(reqData.apikey === undefined){
-            console.log('hey')
             throw new Error('Please provide an apikey in the headers')
         }
         if(reqData.spreadSheetId === undefined){
-            console.log('heyss')
             throw new Error('Please provide an spread sheet id')
         }
         if(reqData.sheetIndex === undefined){
@@ -67,7 +65,7 @@ const getSheet = async (reqData, res) => {
             newSheet.getRows(),
         ]);
         newSheet.rows = rows
-
+        newSheet.testRows = convertDataToColumn(rows,newSheet.headerValues)
 
         sheetCache.set(str, newSheet, 1800)
         return newSheet
@@ -85,6 +83,20 @@ const updateSheet = async(reqData, updatedsheet) => {
     
     console.log('sheet updated')
 }
+const convertDataToColumn = (rows, header) => {
+    const result = {}
+    header.forEach((head) => {
+        result[head] = []
+    });
+    rows.forEach((row) => {
+        header.forEach((head, j) => {
+            const cellValue = row._rawData[j] !== undefined ? row._rawData[j] : ""
 
+            result[head].push(cellValue)
+        });
+    });
+    console.log(result[header[0]].length)
+    return JSON.stringify(result)
+}
 
 module.exports = { getSheet, updateSheet};

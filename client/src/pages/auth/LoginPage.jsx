@@ -2,19 +2,20 @@ import {Link} from 'react-router-dom'
 import AuthImages from './components/AuthImages'
 import InputDiv from './components/InputDiv'
 import {motion} from 'framer-motion'
-
+import {useNavigate} from 'react-router-dom'
 import AppContext from '../../dataContext/AppContext'
 import { useContext } from 'react'
 
 const Login = () => {
     const {handelFormSubmit} = useContext(AppContext)
     const authType = 'login'
+    const navigate = useNavigate()
     return(
         <main className='auth-main'>
             <div className="auth">
                 <div className="auth-div">
                     <h3>LOGIN</h3>
-                    <form className='auth-form' action="" onSubmit={(e)=>handelFormSubmit(e,authType)}>
+                    <form className='auth-form' action="" onSubmit={(e)=>handelFormSubmit(e,authType,navigate)}>
                         <InputDiv field={'email'} name={'email'} placeHolder={"example@gmail.com"} label={'Email'}/>
                         <InputDiv field={'password'} name={'password'} placeHolder={"123456"} label={'password'}/>
                         <motion.button className='btn login auth-btn'

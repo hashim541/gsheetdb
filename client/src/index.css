@@ -39,6 +39,12 @@ h4{
   font-size: 1.8rem;
   color: var(--header);
 }
+pre{
+  font-family: monospace;
+  font-weight: 400;
+  color: var(--para);
+  font-size: 1.1rem;
+}
 .main{
   min-height: 100vh;
 }
