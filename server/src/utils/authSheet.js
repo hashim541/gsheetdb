@@ -64,8 +64,7 @@ const getSheet = async (reqData, res) => {
             newSheet.loadHeaderRow(),
             newSheet.getRows(),
         ]);
-        newSheet.rows = rows
-        newSheet.testRows = convertDataToColumn(rows,newSheet.headerValues)
+        newSheet.rows = convertDataToColumn(rows,newSheet.headerValues)
 
         sheetCache.set(str, newSheet, 1800)
         return newSheet
@@ -95,7 +94,6 @@ const convertDataToColumn = (rows, header) => {
             result[head].push(cellValue)
         });
     });
-    console.log(result[header[0]].length)
     return JSON.stringify(result)
 }
 

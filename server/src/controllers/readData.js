@@ -14,12 +14,15 @@ const findOne = async(req, res) => {
 
         const headers = sheet.headerValues
         
-        const rows = sheet.rows
+        // const rows = sheet.rows
+        var rows = JSON.parse(sheet.rows)
  
-        const row = rows.find(row => row.get(key) === value);
-        if (row) {
-            const result = formatData(row, headers,reqData.query.return)
+        // const row = rows.find(row => row.get(key) === value);
+        const index = rows[key].indexOf(value)
         
+        if (index) {
+            const result = formatData(rows,index, headers,reqData.query.return)
+            rows=''
             res.status(200).json(result);
         } else {
             res.status(404).json(null);
