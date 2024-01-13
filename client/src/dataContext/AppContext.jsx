@@ -35,7 +35,7 @@ export const AppProvider = ({ children }) => {
         const data = convertFormData(e.target)
         const options ={
             method:'POST',
-            url:lurl+'/user/'+authType,
+            url:url+'/user/'+authType,
             headers: {'Content-Type': 'application/json'},
             data:JSON.stringify(data)
         }

@@ -64,12 +64,14 @@ const getSheet = async (reqData, res) => {
             newSheet.loadHeaderRow(),
             newSheet.getRows(),
         ]);
-        newSheet.rows = convertDataToColumn(rows,newSheet.headerValues)
+        newSheet.rows = rows
 
         sheetCache.set(str, newSheet, 1800)
+        // invertedSheetCache.set(reqData.spreadSheetId,buildInvertedIndex(rows,newSheet.headerValues),1800)
+
         return newSheet
     } catch (error) {
-        console.error('getSheet error:', error.message)
+        console.error('getSheet error:', error)
         res.status(400).json({ error: error.message })
     }
 };
@@ -77,24 +79,37 @@ const getSheet = async (reqData, res) => {
 const updateSheet = async(reqData, updatedsheet) => {
     const str = `${reqData.apikey},${reqData.spreadSheetId},${reqData.sheetIndex}`;
     const rows = await updatedsheet.getRows()
-    updatedsheet.rows = rows
+    // updatedsheet.rows = convertDataToColumn(rows)
     sheetCache.set(str, updatedsheet)
     
     console.log('sheet updated')
 }
-const convertDataToColumn = (rows, header) => {
-    const result = {}
-    header.forEach((head) => {
-        result[head] = []
-    });
-    rows.forEach((row) => {
-        header.forEach((head, j) => {
-            const cellValue = row._rawData[j] !== undefined ? row._rawData[j] : ""
+// function buildInvertedIndex(rows,headers) {
+//     const invertedIndex = new Map();
+//     rows.forEach((row, rowIndex) => {
+//       row._rawData.forEach((value, i) => {
+//         if (!invertedIndex.has(headers[i]+value)) {
+//           invertedIndex.set(headers[i]+value, [rowIndex]);
+//         } else {
+//           invertedIndex.get(headers[i]+value).push(rowIndex);
+//         }
+//       });
+//     });
+//     return invertedIndex
+//   }
+// const convertDataToColumn = (rows, header) => {
+//     const result = {}
+//     header.forEach((head) => {
+//         result[head] = []
+//     });
+//     rows.forEach((row) => {
+//         header.forEach((head, j) => {
+//             const cellValue = row._rawData[j] !== undefined ? row._rawData[j] : ""
 
-            result[head].push(cellValue)
-        });
-    });
-    return JSON.stringify(result)
-}
+//             result[head].push(cellValue)
+//         });
+//     });
+//     return JSON.stringify(result)
+// }
 
 module.exports = { getSheet, updateSheet};

@@ -4,7 +4,6 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const compression = require('compression')
 const morgan = require('morgan')
-const os = require('os');
 
 const registerRouts = require('./routers/registerRoute')
 const getApiKeyRouts = require('./routers/getApiKeyRoute')
@@ -57,13 +56,13 @@ app.listen(port,() => {
     console.log(`server running on port ${port}`)
 })
 
-function printMemoryUsage() {
-  const memoryUsage = process.memoryUsage();
-  const usedMB = Math.round(memoryUsage.rss / 1024 / 1024);
-  const heapUsedMB = Math.round(memoryUsage.heapUsed / 1024 / 1024);
+// function printMemoryUsage() {
+//   const memoryUsage = process.memoryUsage();
+//   const usedMB = Math.round(memoryUsage.rss / 1024 / 1024);
+//   const heapUsedMB = Math.round(memoryUsage.heapUsed / 1024 / 1024);
   
-  console.log(`Memory Usage: ${usedMB} MB`);
-  console.log(`Heap Used: ${heapUsedMB} MB`);
-}
+//   console.log(`Memory Usage: ${usedMB} MB`);
+//   console.log(`Heap Used: ${heapUsedMB} MB`);
+// }
 
-setInterval(printMemoryUsage, 20 * 1000);
+// setInterval(printMemoryUsage, 60 * 1000);

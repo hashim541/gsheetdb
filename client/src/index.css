@@ -363,8 +363,8 @@ pre{
   padding:20px;
 }
 .auth-div{
-  width: 100%;
-  /* min-width:300px; */
+  width: 30vw;
+  min-width:350px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -423,8 +423,10 @@ pre{
   background-color: var(--light-green);
 }
 .auth-img-div > img{
+  width: 100%;
   position: absolute;
   max-width: 600px;
+  min-width: 350px;
   border-radius: 5%;
   margin: 0 auto;
   rotate: -25deg;
@@ -441,6 +443,118 @@ pre{
   left: 80%;
 }
 .auth-sheet{
-  top: -15%;
+  top: 0%;
   left:40%;
+}
+
+@media(width < 900px){
+  h1{
+    font-size: 2.2rem;
+  }
+  h2{
+    font-size: 2rem;
+  }
+  .each-feature{
+    max-width: 350px;
+  }
+  .each-feature>h3{
+    font-size: 1.5rem;
+  }
+  p{
+    font-size: 1.1rem;
+  }
+  .api-text>p,.crud-text>p{
+    line-height: 22px;
+  }
+  .landing-json{
+    top: -20%;
+  }
+}
+@media(width < 725px){
+  .hero{
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+  }
+  .hero-img,.hero-text{
+    margin-bottom: 0;
+  }
+  .hero-img{
+    margin: 0 auto;
+  }
+  .hero-image,.hero-text{
+    width: 100%;
+  }
+  .hero-text>h1,.hero-text>p{
+    text-align: center;
+  }
+  .hero,.api-crud,.key-f,.get-start{
+    padding: 20px;
+  }
+  .lan{
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .api-crud{
+    gap:20px;
+  }
+  .api-img,.api-text,.crud-img,.crud-text{
+    width: 100%;
+  }
+  .api-textx,.crud-text{
+    text-align: center;
+  }
+  .each-feature{
+    max-width:300px ;
+  }
+  .get-start>p{
+    width: 100%;
+    max-width: 1000px;
+  }
+  #g-s-email{
+    min-width: 350px;
+  }
+  
+}
+@media(width < 450px){
+  .nav1{
+    width: calc(100% );
+    padding: 10px 15px;
+    gap:10px;
+    transform: translate(0%);
+    left: 0;
+    min-width:auto;
+  }
+  .btn{
+    padding: 8px 15px;
+  }
+  .logo>img{
+    width: 100px;
+  }
+  .nav1 > div:nth-child(2) {
+    margin-left: 0px;
+  }
+}
+@media(width < 500px){
+  .auth-img-div{
+    display: none;
+  }
+  .auth{
+    width: 100%;
+  }
+  .auth-div{
+    width: 100%;
+    min-width: 0px;
+  }
+  .input{
+    min-width: 10px;
+  }
+  .auth-div > h3{
+    margin-bottom: 0px;
+  }
+  .auth-btn{
+    margin-top: 10px;
+    margin-bottom: 15px;
+  }
 }
