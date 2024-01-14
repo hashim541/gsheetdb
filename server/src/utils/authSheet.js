@@ -65,6 +65,9 @@ const getSheet = async (reqData, res) => {
             newSheet.getRows(),
         ]);
         newSheet.rows = rows
+        const Dtype = addType(newSheet.headerValues)
+        newSheet.headers = Dtype.heads
+        newSheet.dataType = Dtype.result
 
         sheetCache.set(str, newSheet, 1800)
         // invertedSheetCache.set(reqData.spreadSheetId,buildInvertedIndex(rows,newSheet.headerValues),1800)
@@ -79,10 +82,34 @@ const getSheet = async (reqData, res) => {
 const updateSheet = async(reqData, updatedsheet) => {
     const str = `${reqData.apikey},${reqData.spreadSheetId},${reqData.sheetIndex}`;
     const rows = await updatedsheet.getRows()
-    // updatedsheet.rows = convertDataToColumn(rows)
+    updatedsheet.rows = rows
     sheetCache.set(str, updatedsheet)
     
     console.log('sheet updated')
+}
+const addType = (header) => {
+    const result = {}
+    const heads=[]
+    var flag= 0
+    const dType=['str','num','bool','date','arr','obj']
+    header.forEach(head => {
+        if(head.includes(':')){
+            const [key,value] = head.split(':')
+            heads.push(key)
+            if(dType.includes(value)){
+                result[key] = value
+            } else {
+                result[key] = 'str'
+            }
+        } else {
+            flag+=1
+        }
+    })
+    if(flag == 0){
+        return {result,heads}
+    }else{
+        console.log('please check your header it is missing data type `:<dataType>`')
+    }
 }
 // function buildInvertedIndex(rows,headers) {
 //     const invertedIndex = new Map();

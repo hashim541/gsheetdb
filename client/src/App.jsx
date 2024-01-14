@@ -69,28 +69,31 @@ function App() {
         spreadSheetId:'11V0iILqRDt-K0NX6TH74YKGsE12-P-a-q-xQfTRGw2g',
         // spreadSheetId:'1BXNEpTaOQUq4hOL-163PIb1jaWKYrtwE5Fk4e2dHp68',
         sheetIndex:0,
-        query:{header:'Gender',value:'Male',unique:'',return:['EEID']},
-        data:[
+        query:{header:'Gender',value:'Male',unique:'EEID',return:[]},
+        data:
           {
             'EEID':'E98765',
             'Full Name':'Mohamed Hashim',
             'Age':19,
-            'new':'new123'
+            'Bonus':10,
+            'Array':['farhan','aaqil'],
+            'uouo':true,
+            'userObj':{hey:'hello'}
           },
-          {
-            'EEID':'E98765',
-            'Full Name':'Mohamed Hashim',
-            'Age':19,
-            'new':'new123'
-          }
-        ],
+        //   {
+        //     'EEID':'E98764',
+        //     'Full Name':'Mohamed Hashim',
+        //     'Age':19,
+        //     'new':'new123'
+        //   }
+        // ],
         // sheetHeader:['apple','Orange','Banan']
       })
     }
     
 
     try {
-      const response = await fetch(url+'/query/findOne',options)
+      const response = await fetch(url+'/query/findMany',options)
       const data = await response.json()
       setRes(JSON.stringify(data))
     } catch (error) {
