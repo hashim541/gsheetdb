@@ -8,16 +8,25 @@ const createOne = async (req, res) => {
     const key = reqData.query.unique;
     const value = reqData.data[key];
     const sheet = await getSheet(reqData, res);
-    const {  dataType, rows } = sheet;
+    const {  schema,schemaKeys, rows } = sheet;
   
     try {
+        if(typeof reqData.data !== 'object' || Array.isArray(reqData.data)){
+            throw new Error('data: must be an object')
+        }
+        if(key.length !== 0 && schemaKeys[key] === undefined){
+            throw new Error(`${key} is not in header`)
+        }
         if (sheet) {
-            const result = checkType(reqData.data, dataType);
+            
+            const result = checkType(reqData.data, schema,schemaKeys);
+
             if (!key) {
                 await sheet.addRow(result);
             } else {
+              const keyType =schemaKeys[key].type
                 const row = rows.find(
-                    (row) => row.get(`${key}:${dataType[key]}`) === value
+                    (row) => row.get(`${key}:${keyType}`) === value
                 );
                 if (!row) {
                     await sheet.addRow(result);
@@ -43,32 +52,41 @@ const createMany = async (req, res) => {
     
     req.body.apikey = req.headers['apikey'];
     const reqData = req.body;
-    const key = reqData.query.unique;
+    const key = reqData.query.unique|| '';
     const sheet = await getSheet(reqData, res);
     let dataCreated = 0;
     let dataAlreadyExists = 0;
-    const { dataType } = sheet;
-    
-    try {
-        if (sheet) {
-            if (!key) {
+    const {  schema, schemaKeys } = sheet;
 
+    try {
+        if(!Array.isArray(reqData.data)){
+            throw new Error('data: must be an array')
+        }
+        if(key.length !== 0 && schemaKeys[key] === undefined){
+            throw new Error(`${key} is not in header`)
+        }
+        if (sheet) {
+            if (key.length === 0) {
+
+                const rowsToAdd = [];
                 for (const eachData of reqData.data) {
-                    const result = checkType(eachData, dataType);
-                    await sheet.addRow(result);
+                    const result = checkType(eachData, schema, schemaKeys);
+                    rowsToAdd.push(result);
                     dataCreated++;
                 }
+                await sheet.addRows(rowsToAdd);
                 await updateSheet(reqData, sheet);
+                console.log('hi')
             } else {
-                reqData.data.map(data => checkType(data,dataType))
+                const keyType = schemaKeys[key].type
                 for (const eachData of reqData.data) {
                     const value = eachData[key];
                     const newSheet = await getSheet(reqData, res);
                     const rows = newSheet.rows;
-                    const row = rows.find((row) => row.get(`${key}:${dataType[key]}`) === value);
+                    const row = rows.find((row) => row.get(`${key}:${keyType}`) === value);
 
                     if (!row) {
-                        const result = checkType(eachData, dataType);
+                        const result = checkType(eachData, schema,schemaKeys);
                         await newSheet.addRow(result);
                         dataCreated++;
                     } else {
@@ -87,34 +105,20 @@ const createMany = async (req, res) => {
 };
 
 
-const checkType = (data, dataType) => {
-    const result = {};
-    for (const [key, value] of Object.entries(data)) {
-      if (dataType[key]) {
-        const type = whatType(value);
-        if (dataType[key] !== type) {
-          throw new Error(`${key}:${data[key]} is a ${dataType[key]} type`);
-        } else {
-          result[`${key}:${type}`] = type === "arr" || type === "obj" ? JSON.stringify(value) : value;
-        }
-      }
+const checkType = (data, schema, schemaKeys) => {
+  
+    const result = schema.validate(data)
+    if(result.error){
+      throw new Error(result.error.details[0].message)
     }
-    return result;
+    const resultData={}
+    for(let key in result.value){
+      resultData[key+':'+schemaKeys[key].type] = result.value[key]
+    }
+    return resultData;
 };
   
 
-const whatType = (data) => {
-    if (typeof data === "number") {
-      return "num";
-    } else if (typeof data === "boolean") {
-      return "bool";
-    } else if (Array.isArray(data)) {
-      return "arr";
-    } else if (typeof data === "object") {
-      return "obj";
-    } else {
-      return "str";
-    }
-  };
+
   
 module.exports = { createOne, createMany }

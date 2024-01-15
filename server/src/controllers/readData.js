@@ -13,13 +13,15 @@ const findOne = async (req, res) => {
         const sheet = await getSheet(reqData, res);
 
         if (sheet) {
-            const { headers, dataType, rows } = sheet;
 
-            if (dataType[key] !== undefined) {
-                const row = rows.find((row) => row.get(`${key}:${dataType[key]}`) == value);
+            const { headers, schemaKeys, rows } = sheet;
+            const keyType =schemaKeys[key].type
+            if (headers.includes(key)) {
+
+                const row = rows.find((row) => row.get(`${key}:${keyType}`) == value);
 
                 if (row) {
-                    const result = formatData(row, headers, dataType, reqData.query.return);
+                    const result = formatData(row, headers, schemaKeys, reqData.query.return);
                     return res.status(200).json(result);
                 }
 
@@ -41,18 +43,23 @@ const findMany = async(req, res) => {
     req.body.query.return = req.body.query.return || []
     const reqData = req.body
     
-    const key = reqData.query.header 
+    const key = reqData.query.header || ''
     const value = reqData.query.value 
     const sheet = await getSheet(reqData, res)
     if(sheet){
 
-        const { headers, dataType, rows } = sheet;  
-        const result = rows
-            .filter((row) => row.get(`${key}:${dataType[key]}`) == value)
-            .map((row) => formatData(row, headers, dataType, reqData.query.return))
+        const { headers, schemaKeys, rows } = sheet;
+        if(headers.includes(key)){
+            const keyType =schemaKeys[key].type 
+            const result = rows
+                .filter((row) => row.get(`${key}:${keyType}`) == value)
+                .map((row) => formatData(row, headers, schemaKeys, reqData.query.return))
 
 
-        res.status(200).json(result)
+            res.status(200).json(result)
+        }else{
+            return res.status(400).json({ error: `${key} doesn't exist in header` });
+        }
     }
 }
 

@@ -3,6 +3,7 @@ const { decrypt } = require('./hash/hash');
 const { JWT } = require('google-auth-library');
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 const { sheetCache, apikeyCache } = require('./nodeCache');
+const Joi = require('joi')
 
 const getSheet = async (reqData, res) => {
     try {
@@ -24,7 +25,7 @@ const getSheet = async (reqData, res) => {
             result=apikeyCache.get(reqData.apikey)
         }else{
             result = await APIKey.findOne({ ApiKey: reqData.apikey })
-            apikeyCache.set(reqData.apikey,result,300)
+            apikeyCache.set(reqData.apikey,result,1800)
         }
         if (!result) {
             throw new Error('Error finding apikey')
@@ -65,10 +66,11 @@ const getSheet = async (reqData, res) => {
             newSheet.getRows(),
         ]);
         newSheet.rows = rows
-        const Dtype = addType(newSheet.headerValues)
+        const Dtype = sheetSchema(newSheet.headerValues,Joi)
         newSheet.headers = Dtype.heads
-        newSheet.dataType = Dtype.result
-
+        newSheet.schema = Dtype.value
+        newSheet.schemaKeys = newSheet.schema.describe().keys
+        // console.log(newSheet.schema)
         sheetCache.set(str, newSheet, 1800)
         // invertedSheetCache.set(reqData.spreadSheetId,buildInvertedIndex(rows,newSheet.headerValues),1800)
 
@@ -87,28 +89,46 @@ const updateSheet = async(reqData, updatedsheet) => {
     
     console.log('sheet updated')
 }
-const addType = (header) => {
+const sheetSchema = (header,Joi) => {
     const result = {}
     const heads=[]
     var flag= 0
-    const dType=['str','num','bool','date','arr','obj']
+    const dType=['string','number','boolean','array','object']
     header.forEach(head => {
         if(head.includes(':')){
             const [key,value] = head.split(':')
             heads.push(key)
             if(dType.includes(value)){
-                result[key] = value
+                result[key] = switchType(dType[dType.indexOf(value)])
             } else {
-                result[key] = 'str'
+                result[key] = Joi.string()
             }
         } else {
+            heads.push('')
             flag+=1
         }
     })
     if(flag == 0){
-        return {result,heads}
+        const value = Joi.object(result)
+        return {value,heads}
     }else{
         console.log('please check your header it is missing data type `:<dataType>`')
+    }
+}
+const switchType = (data)=>{
+    switch(data){
+        case 'string':
+            return Joi.string()
+        case 'number':
+            return Joi.number()
+        case 'boolean':
+            return Joi.boolean()
+        case 'array':
+            return Joi.array().custom((value) => JSON.stringify(value))
+        case 'object':
+            return Joi.object().custom((value) => JSON.stringify(value))
+        default:
+            return Joi.string()
     }
 }
 // function buildInvertedIndex(rows,headers) {
