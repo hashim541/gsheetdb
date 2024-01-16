@@ -13,7 +13,6 @@ const findOne = async (req, res) => {
         const sheet = await getSheet(reqData, res);
 
         if (sheet) {
-
             const { headers, schemaKeys, rows } = sheet;
             const keyType =schemaKeys[key].type
             if (headers.includes(key)) {

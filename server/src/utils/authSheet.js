@@ -65,14 +65,17 @@ const getSheet = async (reqData, res) => {
             newSheet.loadHeaderRow(),
             newSheet.getRows(),
         ]);
+        
+        newSheet._rowCache=[]
+        newSheet._spreadsheet._rawProperties={}
         newSheet.rows = rows
+
         const Dtype = sheetSchema(newSheet.headerValues,Joi)
         newSheet.headers = Dtype.heads
         newSheet.schema = Dtype.value
         newSheet.schemaKeys = newSheet.schema.describe().keys
-        // console.log(newSheet.schema)
+
         sheetCache.set(str, newSheet, 1800)
-        // invertedSheetCache.set(reqData.spreadSheetId,buildInvertedIndex(rows,newSheet.headerValues),1800)
 
         return newSheet
     } catch (error) {

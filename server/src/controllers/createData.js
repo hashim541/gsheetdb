@@ -76,7 +76,6 @@ const createMany = async (req, res) => {
                 }
                 await sheet.addRows(rowsToAdd);
                 await updateSheet(reqData, sheet);
-                console.log('hi')
             } else {
                 const keyType = schemaKeys[key].type
                 for (const eachData of reqData.data) {
@@ -89,10 +88,10 @@ const createMany = async (req, res) => {
                         const result = checkType(eachData, schema,schemaKeys);
                         await newSheet.addRow(result);
                         dataCreated++;
+                        await updateSheet(reqData, newSheet);
                     } else {
                         dataAlreadyExists++;
-                    }
-                    await updateSheet(reqData, newSheet);
+                    }   
                 }
             }
 
@@ -106,17 +105,19 @@ const createMany = async (req, res) => {
 
 
 const checkType = (data, schema, schemaKeys) => {
+    const { error, value } = schema.validate(data)
   
-    const result = schema.validate(data)
-    if(result.error){
-      throw new Error(result.error.details[0].message)
+    if (error) {
+      throw new Error(error.details[0].message)
     }
-    const resultData={}
-    for(let key in result.value){
-      resultData[key+':'+schemaKeys[key].type] = result.value[key]
-    }
-    return resultData;
-};
+  
+    const resultData = {}
+    for (const key in value) {
+      const type = schemaKeys[key].type
+      resultData[`${key}:${type}`] = value[key]
+    }  
+    return resultData
+}
   
 
 
