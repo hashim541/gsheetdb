@@ -12,7 +12,7 @@ export const AppProvider = ({ children }) => {
 // useStates and useRefs
 
     const [scrollTop,setScrollTop] = useState(true)
-    const [User,setUser] = useState({auth:false})
+    const [User,setUser] = useState({auth:true})
 // functions
     const handelWindowHeight = (e) =>{
         if(e.deltaY < 0){

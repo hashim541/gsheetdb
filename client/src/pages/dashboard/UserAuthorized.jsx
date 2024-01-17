@@ -5,7 +5,9 @@ const UserAuthorized = () => {
     return(
         <main className="main2">
             <DashNavBar/>
-            <Outlet/>
+            <main>
+                <Outlet/>
+            </main>
         </main>
     )
 }

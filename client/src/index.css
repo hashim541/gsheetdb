@@ -558,3 +558,46 @@ pre{
     margin-bottom: 15px;
   }
 }
+
+
+.nav2{
+  background-color: #212121;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.main2{
+  display:flex;
+  min-height: 100vh;
+}
+.routes > a{
+  text-decoration: none;
+  display: flex;
+  align-items: center ;
+  gap:10px;
+}
+.routes{
+  margin:auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.logo2{
+  color: var(--gray);
+}
+.routes > a >img{
+  width: 50px;
+}
+h4{
+  color: var(--gray);
+  font-size: 1.2rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.logout{
+  margin-top: auto;
+}
+.logout,.logout-btn{
+  width: 100%;
+  color: var(--black);
+}
