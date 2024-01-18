@@ -13,11 +13,19 @@ export const AppProvider = ({ children }) => {
 
     const [scrollTop,setScrollTop] = useState(true)
     const [User,setUser] = useState({auth:true})
-    const [notification,setNotification] = useState([{state:true,message:'hello world'}])
+    const [notification,setNotification] = useState([])
 // functions
-    const addNotification = () => {
-        
-    } 
+    const addNotification = (message, status) => {
+        let id = Date.now()
+        setNotification((prev) => [...prev,{ status, message, id }]);
+    
+        setTimeout(() => {
+        setNotification((prev) => {
+            const filteredData = prev.filter((eData) => eData.id !== id);
+            return filteredData;
+        });
+        }, 15000);
+    };
     const handelWindowHeight = (e) =>{
         if(e.deltaY < 0){
             setScrollTop(true)
@@ -37,6 +45,18 @@ export const AppProvider = ({ children }) => {
     const handelFormSubmit = (e, authType,navigate) => {
         e.preventDefault()
         const data = convertFormData(e.target)
+        if(data.password.length < 8){
+            let message = `Password must be atleast 8 characters`
+            let status = false
+            addNotification(message,status)
+            return
+        }
+        if(authType === 'register' && data.confirmPassword !== data.password){
+            let message = `Password and Confirm-password dosen't match`
+            let status = false
+            addNotification(message,status)
+            return
+        }
         const options ={
             method:'POST',
             url:url+'/user/'+authType,
@@ -49,10 +69,13 @@ export const AppProvider = ({ children }) => {
             userData.auth=true
             
             setUser(userData)
+
+            addNotification('user loged in successfully',true)
             navigate('/dashboard')
         })
         .catch(error => {
             console.log('Response data:', error.response.data);
+            addNotification(error.response.data.error,false)
         });
     }
     
@@ -62,7 +85,7 @@ export const AppProvider = ({ children }) => {
         User,
         scrollTop,handelWindowHeight,
         handelFormSubmit,
-        notification,setNotification
+        notification
     };
 
     return (

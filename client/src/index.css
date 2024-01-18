@@ -601,3 +601,32 @@ h4{
   width: 100%;
   color: var(--black);
 }
+.notifications{
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap:8px;
+}
+.each-notification{
+  max-width: 400px;
+  background-color: var(--header);
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap:8px;
+  border-radius:8px;
+}
+.each-notification > img {
+  width: 35px;
+}
+.each-notification > p{
+  font-size: 1rem;
+  color: var(--gray);
+  font-weight: 600;
+}

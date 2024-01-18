@@ -56,7 +56,7 @@ const createMany = async (req, res) => {
     const sheet = await getSheet(reqData, res);
     let dataCreated = 0;
     let dataAlreadyExists = 0;
-    const {  schema, schemaKeys } = sheet;
+    const { _headerValues, headers,schema, schemaKeys,rows } = sheet;
 
     try {
         if(!Array.isArray(reqData.data)){
@@ -71,27 +71,46 @@ const createMany = async (req, res) => {
                 const rowsToAdd = [];
                 for (const eachData of reqData.data) {
                     const result = checkType(eachData, schema, schemaKeys);
-                    rowsToAdd.push(result);
+                    rowsToAdd.push(sheet.addRow(result));
                     dataCreated++;
                 }
-                await sheet.addRows(rowsToAdd);
+                await Promise.all(rowsToAdd)
                 await updateSheet(reqData, sheet);
             } else {
                 const keyType = schemaKeys[key].type
+                const rowsToAdd=[]
+                const tempRows = rows.map(row => row._rawData);
                 for (const eachData of reqData.data) {
                     const value = eachData[key];
-                    const newSheet = await getSheet(reqData, res);
-                    const rows = newSheet.rows;
-                    const row = rows.find((row) => row.get(`${key}:${keyType}`) === value);
+                    // const newSheet = await getSheet(reqData, res);
+                    // const rows = newSheet.rows;
 
-                    if (!row) {
-                        const result = checkType(eachData, schema,schemaKeys);
-                        await newSheet.addRow(result);
-                        dataCreated++;
-                        await updateSheet(reqData, newSheet);
-                    } else {
-                        dataAlreadyExists++;
-                    }   
+                    // const row = rows.find((row) =>value === row._rawData[_headerValues.indexOf(`${key}:${keyType}`)]);
+
+                    // if (!row) {
+                    //     const result = checkType(eachData, schema,schemaKeys);
+                    //     await newSheet.addRow(result);
+                    //     dataCreated++;
+                    //     await updateSheet(reqData, newSheet);
+                    // } else {
+                    //     dataAlreadyExists++;
+                    // }   
+
+                    const row = tempRows.find((row) =>value === row[_headerValues.indexOf(`${key}:${keyType}`)]);
+
+                    if(!row){
+                        const result = checkType(eachData, schema,schemaKeys)
+                        tempRows.push(converDataToArray(result, schemaKeys))
+                        rowsToAdd.push(sheet.addRow(result))
+                        dataCreated++
+                    }else{
+                        dataAlreadyExists++
+                    }
+                }
+                if(rowsToAdd.length !== 0){
+                    console.log(rowsToAdd)
+                    await Promise.all(rowsToAdd)
+                    await updateSheet(reqData, sheet);
                 }
             }
 
@@ -119,7 +138,17 @@ const checkType = (data, schema, schemaKeys) => {
     return resultData
 }
   
-
+const converDataToArray = (eachData,schemaKeys) => {
+    const result =[]
+    for(let key in schemaKeys){
+        if(eachData[key]){
+            result.push(eachData[key])
+        }else{
+            result.push('')
+        }
+    }
+    return result
+}
 
   
 module.exports = { createOne, createMany }
