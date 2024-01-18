@@ -5,6 +5,7 @@ import LoginPage from './pages/auth/LoginPage'
 import RegisterPage from './pages/auth/RegisterPage'
 import Dashboard from './pages/dashboard/Dashboard';
 import Setting from './pages/dashboard/Setting';
+import Notifications from './pages/Notifications';
 import { AppProvider } from './dataContext/AppContext';
 import AuthRequired from './AuthRequired';
 
@@ -13,6 +14,7 @@ function App(){
   return(
     <>
       <AppProvider>
+        <Notifications />
         <Router>
           <Routes>
 

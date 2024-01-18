@@ -13,7 +13,11 @@ export const AppProvider = ({ children }) => {
 
     const [scrollTop,setScrollTop] = useState(true)
     const [User,setUser] = useState({auth:true})
+    const [notification,setNotification] = useState([{state:true,message:'hello world'}])
 // functions
+    const addNotification = () => {
+        
+    } 
     const handelWindowHeight = (e) =>{
         if(e.deltaY < 0){
             setScrollTop(true)
@@ -57,7 +61,8 @@ export const AppProvider = ({ children }) => {
     const contextValue = {
         User,
         scrollTop,handelWindowHeight,
-        handelFormSubmit
+        handelFormSubmit,
+        notification,setNotification
     };
 
     return (
