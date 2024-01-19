@@ -56,7 +56,7 @@ const createMany = async (req, res) => {
     const sheet = await getSheet(reqData, res);
     let dataCreated = 0;
     let dataAlreadyExists = 0;
-    const { _headerValues, headers,schema, schemaKeys,rows } = sheet;
+    const { _headerValues,schema, schemaKeys,rows } = sheet;
 
     try {
         if(!Array.isArray(reqData.data)){
@@ -71,45 +71,29 @@ const createMany = async (req, res) => {
                 const rowsToAdd = [];
                 for (const eachData of reqData.data) {
                     const result = checkType(eachData, schema, schemaKeys);
-                    rowsToAdd.push(sheet.addRow(result));
+                    rowsToAdd.push(result);
                     dataCreated++;
                 }
-                await Promise.all(rowsToAdd)
+                await sheet.addRows(rowsToAdd)
                 await updateSheet(reqData, sheet);
             } else {
                 const keyType = schemaKeys[key].type
                 const rowsToAdd=[]
-                const tempRows = rows.map(row => row._rawData);
+                const headerIndex = _headerValues.indexOf(`${key}:${keyType}`)
+                const tempRows = rows.map(row => row._rawData[headerIndex]);
                 for (const eachData of reqData.data) {
                     const value = eachData[key];
-                    // const newSheet = await getSheet(reqData, res);
-                    // const rows = newSheet.rows;
-
-                    // const row = rows.find((row) =>value === row._rawData[_headerValues.indexOf(`${key}:${keyType}`)]);
-
-                    // if (!row) {
-                    //     const result = checkType(eachData, schema,schemaKeys);
-                    //     await newSheet.addRow(result);
-                    //     dataCreated++;
-                    //     await updateSheet(reqData, newSheet);
-                    // } else {
-                    //     dataAlreadyExists++;
-                    // }   
-
-                    const row = tempRows.find((row) =>value === row[_headerValues.indexOf(`${key}:${keyType}`)]);
-
-                    if(!row){
+                    if(!tempRows.includes(value)){
                         const result = checkType(eachData, schema,schemaKeys)
-                        tempRows.push(converDataToArray(result, schemaKeys))
-                        rowsToAdd.push(sheet.addRow(result))
+                        tempRows.push(result[`${key}:${keyType}`])
+                        rowsToAdd.push(result)
                         dataCreated++
                     }else{
                         dataAlreadyExists++
                     }
                 }
                 if(rowsToAdd.length !== 0){
-                    console.log(rowsToAdd)
-                    await Promise.all(rowsToAdd)
+                    await sheet.addRows(rowsToAdd)
                     await updateSheet(reqData, sheet);
                 }
             }
