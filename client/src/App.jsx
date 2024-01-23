@@ -72,21 +72,7 @@ function App() {
         // spreadSheetId:'1BXNEpTaOQUq4hOL-163PIb1jaWKYrtwE5Fk4e2dHp68',
         sheetIndex:0,
         query:{header:'Gender',value:'Male',unique:'',return:[]},
-        data:[
-          {
-            "EEID":'E98773',
-            "FullName":'Mohamed Hashim',
-            "Age":'19',
-            "Bonus%":10,
-            "Array":['farhan','aaqil'],
-            "uouo":true,
-            "userObj":{hey:'hello'}
-          },
-          {
-            'EEID':'E98774',
-            'FullName':'Mohamed Hashim',
-            'Age':19,
-          },
+        data:
           {
             "EEID":'E98770',
             "FullName":'Mohamed Hashim',
@@ -96,61 +82,75 @@ function App() {
             "uouo":true,
             "userObj":{hey:'hello'}
           },
-          {
-            'EEID':'E98771',
-            'FullName':'Mohamed Hashim',
-            'Age':19,
-          },
-          {
-            "EEID":'E98772',
-            "FullName":'Mohamed Hashim',
-            "Age":'19',
-            "Bonus%":10,
-            "Array":['farhan','aaqil'],
-            "uouo":true,
-            "userObj":{hey:'hello'}
-          },
-          {
-            'EEID':'E98775',
-            'FullName':'Mohamed Hashim',
-            'Age':19,
-          },
-          {
-            "EEID":'E98776',
-            "FullName":'Mohamed Hashim',
-            "Age":'19',
-            "Bonus%":10,
-            "Array":['farhan','aaqil'],
-            "uouo":true,
-            "userObj":{hey:'hello'}
-          },
-          {
-            'EEID':'E98777',
-            'FullName':'Mohamed Hashim',
-            'Age':19,
-          },
-          {
-            "EEID":'E98778',
-            "FullName":'Mohamed Hashim',
-            "Age":'19',
-            "Bonus%":10,
-            "Array":['farhan','aaqil'],
-            "uouo":true,
-            "userObj":{hey:'hello'}
-          },
-          {
-            'EEID':'E98779',
-            'FullName':'Mohamed Hashim',
-            'Age':19,
-          },
-        ],
+        //   {
+        //     'EEID':'E98774',
+        //     'FullName':'Mohamed Hashim',
+        //     'Age':19,
+        //   },
+        //   {
+        //     "EEID":'E98770',
+        //     "FullName":'Mohamed Hashim',
+        //     "Age":'19',
+        //     "Bonus%":10,
+        //     "Array":['farhan','aaqil'],
+        //     "uouo":true,
+        //     "userObj":{hey:'hello'}
+        //   },
+        //   {
+        //     'EEID':'E98771',
+        //     'FullName':'Mohamed Hashim',
+        //     'Age':19,
+        //   },
+        //   {
+        //     "EEID":'E98772',
+        //     "FullName":'Mohamed Hashim',
+        //     "Age":'19',
+        //     "Bonus%":10,
+        //     "Array":['farhan','aaqil'],
+        //     "uouo":true,
+        //     "userObj":{hey:'hello'}
+        //   },
+        //   {
+        //     'EEID':'E98775',
+        //     'FullName':'Mohamed Hashim',
+        //     'Age':19,
+        //   },
+        //   {
+        //     "EEID":'E98776',
+        //     "FullName":'Mohamed Hashim',
+        //     "Age":'19',
+        //     "Bonus%":10,
+        //     "Array":['farhan','aaqil'],
+        //     "uouo":true,
+        //     "userObj":{hey:'hello'}
+        //   },
+        //   {
+        //     'EEID':'E98777',
+        //     'FullName':'Mohamed Hashim',
+        //     'Age':19,
+        //   },
+        //   {
+        //     "EEID":'E98778',
+        //     "FullName":'Mohamed Hashim',
+        //     "Age":'19',
+        //     "Bonus%":10,
+        //     "Array":['farhan','aaqil'],
+        //     "uouo":true,
+        //     "userObj":{hey:'hello'}
+        //   },
+        //   {
+        //     'EEID':'E98779',
+        //     'FullName':'Mohamed Hashim',
+        //     'Age':19,
+        //   },
+        // ],
         // sheetHeader:['apple','Orange','Banan']
       })
     }
     
 
     try {
-      const response = await fetch(gurl+'/query/createMany',options)
+      const response = await fetch(url+'/query/findOne',options)
       const data = await response.json()
       setRes(JSON.stringify(data))
     } catch (error) {

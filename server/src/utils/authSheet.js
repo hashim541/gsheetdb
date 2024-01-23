@@ -92,6 +92,11 @@ const updateSheet = async(reqData, updatedsheet) => {
     
     console.log('sheet updated')
 }
+const updateSheetIndex = (reqData,updatedsheet,row) => {
+    const str = `${reqData.apikey},${reqData.spreadSheetId},${reqData.sheetIndex}`;
+    updatedsheet.rows[row._rowNumber-1]= row
+    sheetCache.set(str,updatedsheet)
+}
 const sheetSchema = (header,Joi) => {
     const result = {}
     const heads=[]
@@ -162,4 +167,4 @@ const switchType = (data)=>{
 //     return JSON.stringify(result)
 // }
 
-module.exports = { getSheet, updateSheet};
+module.exports = { getSheet, updateSheet, updateSheetIndex};

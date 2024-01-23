@@ -1,4 +1,4 @@
-const { getSheet, updateSheet} = require('../utils/authSheet')
+const { getSheet, updateSheet,updateSheetIndex} = require('../utils/authSheet')
 
 
 
@@ -20,24 +20,22 @@ const createOne = async (req, res) => {
         if (sheet) {
             
             const result = checkType(reqData.data, schema,schemaKeys);
-
             if (!key) {
-                await sheet.addRow(result);
+                const row =await sheet.addRow(result);
+                updateSheetIndex(reqData,sheet,row)
             } else {
               const keyType =schemaKeys[key].type
                 const row = rows.find(
                     (row) => row.get(`${key}:${keyType}`) === value
                 );
                 if (!row) {
-                    await sheet.addRow(result);
+                    const row = await sheet.addRow(result);
+                    updateSheetIndex(reqData,sheet,row)
                 } else {
                     return res.status(200).json(`Data already exists with ${value}`);
                 }
             }
-  
             res.status(200).json("Data created");
-  
-            await updateSheet(reqData, sheet);
         }
     } catch (error) {
       console.log(error);
@@ -135,4 +133,4 @@ const converDataToArray = (eachData,schemaKeys) => {
 }
 
   
-module.exports = { createOne, createMany }
+module.exports = { createOne, createMany, checkType}
