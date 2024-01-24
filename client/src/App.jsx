@@ -71,11 +71,11 @@ function App() {
         spreadSheetId:'11V0iILqRDt-K0NX6TH74YKGsE12-P-a-q-xQfTRGw2g',
         // spreadSheetId:'1BXNEpTaOQUq4hOL-163PIb1jaWKYrtwE5Fk4e2dHp68',
         sheetIndex:0,
-        query:{header:'Gender',value:'Male',unique:'',return:[]},
+        query:{header:'FullName',value:'Mohamed Hashis',unique:'',return:[]},
         data:
           {
             "EEID":'E98770',
-            "FullName":'Mohamed Hashim',
+            "FullName":'Mohamed Hashis',
             "Age":'19',
             "Bonus%":10,
             "Array":['farhan','aaqil'],
@@ -150,7 +150,7 @@ function App() {
     
 
     try {
-      const response = await fetch(url+'/query/findOne',options)
+      const response = await fetch(url+'/query/deleteMany',options)
       const data = await response.json()
       setRes(JSON.stringify(data))
     } catch (error) {

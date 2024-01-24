@@ -1,7 +1,7 @@
 const formatData = (row, headers, schemaKeys, returnData) => {
     const result = {};
-    const dType=['string','number','boolean','array','object']
     const returnDataSet = new Set(returnData);
+    result._rowNumber=row._rowNumber
     row._rawData.forEach((data, i) => {
         if (data.length > 0 && (returnDataSet.size === 0 || returnDataSet.has(headers[i]))) {
             result[headers[i]] = convertToDataType(data,schemaKeys[headers[i]].type);
