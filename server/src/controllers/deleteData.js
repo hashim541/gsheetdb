@@ -44,7 +44,7 @@ const deleteMany = async(req, res) => {
 
             const row = rows.filter((row) => row.get(`${key}:${keyType}`) == value)
             if(row.length <= 0){
-                res.status(400).json(`couldn't find data with ${key} == ${value}`)
+                throw new Error(`couldn't find data with ${key} == ${value}`)
             }
             const rowsToUpdate=[]
             row.map((eachData,i)=>{

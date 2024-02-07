@@ -13,6 +13,7 @@ const createRouts = require('./routers/createRoute')
 const updateRoutes = require('./routers/updateRoute')
 const deleteRoutes = require('./routers/deleteRoute')
 const headerRouts = require('./routers/headerRoute')
+const aggregateRouts = require('./routers/aggregateRoute')
 
 const app = express()
 const port = 3000
@@ -52,6 +53,7 @@ app.use('/query',createRouts)
 app.use('/query',headerRouts)
 app.use('/query',updateRoutes)
 app.use('/query',deleteRoutes)
+app.use('/query/aggregate/',aggregateRouts)
 
 app.get('/',(req,res)=>{res.send('welcome to ( Google sheet ) as a database')})
 
