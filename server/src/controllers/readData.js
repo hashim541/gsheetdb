@@ -1,5 +1,6 @@
 const {getSheet} = require('../utils/authSheet')
 const {formatData} = require('../utils/formatData')
+const whereQuery = require('../utils/whereQuery')
 
 const findOne = async (req, res) => {
     try {
@@ -9,6 +10,8 @@ const findOne = async (req, res) => {
         const reqData = req.body;
         const key = reqData.query.header || '';
         const value = reqData.query.value || '';
+        const where = reqData.query.where || '==';
+        const type = 'one'
 
         const sheet = await getSheet(reqData, res);
 
@@ -16,8 +19,7 @@ const findOne = async (req, res) => {
             const { headers, schemaKeys, rows } = sheet;
             const keyType =schemaKeys[key].type
             if (headers.includes(key)) {
-
-                const row = rows.find((row) => row.get(`${key}:${keyType}`) == value);
+                const row = whereQuery( rows, key, keyType, value, where, type )
 
                 if (row) {
                     const result = formatData(row, headers, schemaKeys, reqData.query.return);
@@ -31,34 +33,39 @@ const findOne = async (req, res) => {
         }
     } catch (error) {
         console.error('Error in findOne:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ error: error.message });
     }
 };
 
 
 const findMany = async(req, res) => {
+    try{
+        req.body.apikey=req.headers['apikey']
+        req.body.query.return = req.body.query.return || []
+        const reqData = req.body
+        
+        const key = reqData.query.header || ''
+        const value = reqData.query.value 
+        const where = reqData.query.where || '==';
+        const type = 'many'
+        const sheet = await getSheet(reqData, res)
+        if(sheet){
 
-    req.body.apikey=req.headers['apikey']
-    req.body.query.return = req.body.query.return || []
-    const reqData = req.body
-    
-    const key = reqData.query.header || ''
-    const value = reqData.query.value 
-    const sheet = await getSheet(reqData, res)
-    if(sheet){
-
-        const { headers, schemaKeys, rows } = sheet;
-        if(headers.includes(key)){
-            const keyType =schemaKeys[key].type 
-            const result = rows
-                .filter((row) => row.get(`${key}:${keyType}`) == value)
-                .map((row) => formatData(row, headers, schemaKeys, reqData.query.return))
+            const { headers, schemaKeys, rows } = sheet;
+            if(headers.includes(key)){
+                const keyType =schemaKeys[key].type 
+                const result = whereQuery( rows, key, keyType, value, where, type )
+                    .map((row) => formatData(row, headers, schemaKeys, reqData.query.return))
 
 
-            res.status(200).json(result)
-        }else{
-            return res.status(400).json({ error: `${key} doesn't exist in header` });
+                res.status(200).json(result)
+            }else{
+                return res.status(400).json({ error: `${key} doesn't exist in header` });
+            }
         }
+    }catch (error) {
+        console.error('Error in findMany:', error);
+        res.status(500).json({ error: error.message });
     }
 }
 

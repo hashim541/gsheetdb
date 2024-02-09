@@ -71,7 +71,7 @@ function App() {
         spreadSheetId:'11V0iILqRDt-K0NX6TH74YKGsE12-P-a-q-xQfTRGw2g',
         // spreadSheetId:'1BXNEpTaOQUq4hOL-163PIb1jaWKYrtwE5Fk4e2dHp68',
         sheetIndex:0,
-        query:{header:'AnnualSalary',value:'Mohamed Hashim',unique:'',return:[]},
+        query:{header:'Array',value:'aaqil',unique:'',where:'includes',return:[]},
         data:
           {
             "EEID":'E98770',
@@ -88,7 +88,7 @@ function App() {
     
 
     try {
-      const response = await fetch(url+'/query/aggregate/max',options)
+      const response = await fetch(url+'/query/findMany',options)
       const data = await response.json()
       setRes(JSON.stringify(data))
     } catch (error) {
