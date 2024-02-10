@@ -11,7 +11,7 @@ function getType(value) {
                 return 'object';
             }
         case 'boolean':
-            return 'Boolean';
+            return 'boolean';
         default:
             return 'Unknown';
     }

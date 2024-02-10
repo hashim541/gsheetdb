@@ -1,12 +1,18 @@
-const { getSheet, updateSheet, updateSheetIndex} = require('../utils/authSheet')
+const { getSheet, updateSheetIndex} = require('../utils/authSheet')
 const {checkType} = require('./createData')
+const whereQuery = require('../utils/whereQuery')
+
 
 
 const updateOne = async(req, res) => {
     req.body.apikey = req.headers["apikey"];
     const reqData = req.body;
+
     const key = reqData.query.header || '';
     const value = reqData.query.value || '';
+    const where = reqData.query.where || '==';
+    const type = 'one'
+
     const sheet = await getSheet(reqData, res);
     try {
         if(typeof reqData.data !== 'object'){
@@ -19,7 +25,7 @@ const updateOne = async(req, res) => {
                 throw new Error(`${key} is not in header`)
             }
 
-            const row = rows.find((row) => row.get(`${key}:${keyType}`) == value)
+            const row = whereQuery( rows, key, keyType, value, where, type )
             if(row){
                 const result = checkType(reqData.data, schema, schemaKeys)
                 row.assign(result)
@@ -41,8 +47,12 @@ const updateOne = async(req, res) => {
 const updateMany = async(req, res) => {
     req.body.apikey = req.headers["apikey"];
     const reqData = req.body;
+
     const key = reqData.query.header || '';
     const value = reqData.query.value || '';
+    const where = reqData.query.where || '==';
+    const type = 'many'
+
     const sheet = await getSheet(reqData, res);
     try {
         if(typeof reqData.data !== 'object'){
@@ -55,7 +65,7 @@ const updateMany = async(req, res) => {
                 throw new Error(`${key} is not in header`)
             }
 
-            const row = rows.filter((row) => row.get(`${key}:${keyType}`) == value)
+            const row = whereQuery( rows, key, keyType, value, where, type )
             if(row.length <= 0){
                 res.status(400).json(`couldn't find data with ${key} == ${value}`)
             }

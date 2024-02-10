@@ -71,17 +71,20 @@ function App() {
         spreadSheetId:'11V0iILqRDt-K0NX6TH74YKGsE12-P-a-q-xQfTRGw2g',
         // spreadSheetId:'1BXNEpTaOQUq4hOL-163PIb1jaWKYrtwE5Fk4e2dHp68',
         sheetIndex:0,
-        query:{header:'Array',value:'aaqil',unique:'',where:'includes',return:[]},
+        query:{header:'Age',value:[5,40],unique:'',where:'between',return:[]},
         data:
           {
-            "EEID":'E98770',
-            "FullName":'Mohamed Hashim',
-            "Age":'19',
-            "Bonus%":10,
-            "Array":['farhan','aaqil'],
-            "uouo":true,
-            "userObj":{hey:'hello'}
-          },
+            JobTitle:'teacher'
+          }
+          // {
+          //   "EEID":'E98770',
+          //   "FullName":'Mohamed Hashim',
+          //   "Age":'19',
+          //   "Bonus%":10,
+          //   "Array":['farhan','smart'],
+          //   "uouo":true,
+          //   "userObj":{hey:'hello'}
+          // },
         // sheetHeader:['apple','Orange','Banan']
       })
     }

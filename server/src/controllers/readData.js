@@ -45,7 +45,7 @@ const findMany = async(req, res) => {
         const reqData = req.body
         
         const key = reqData.query.header || ''
-        const value = reqData.query.value 
+        const value = reqData.query.value || ''
         const where = reqData.query.where || '==';
         const type = 'many'
         const sheet = await getSheet(reqData, res)

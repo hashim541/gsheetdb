@@ -1,38 +1,34 @@
 const getType = require('./getType')
 
 const whereForEachType = {
-    number:['==','!=','<=','>=','<','>'],
-    string:['==','!=','includes','startsWith','endsWith'],
-    boolean:['true','false'],
-    array:['includes'],
-    object:['has']
+    number:['==','!=','<=','>=','<','>','between'],
+    string:['==','!=','includes','!includes','startsWith','endsWith'],
+    boolean:['==','!='],
+    array:['includes','!includes'],
+    object:['hasKey','!hasKey']
 
 }
 
 const whereQuery = ( rows, key, keyType, value, where, type ) => {
-    console.log(rows.length , key, keyType,where,value)
-    if(keyType != getType(value) && keyType != 'array'){
-        throw new Error(`${value} must be of type ${keyType}, because ${key} is type of ${keyType}`)
+    
+    if ( !whereForEachType[keyType].includes(where) ){
+        invalidWhere( key, keyType, where, value)
     }
+    if(where == 'between'){
+        const valueType = getType(value);
+        if (valueType !== 'array' || value.length !== 2) {
+            throw new Error(`value parameter must be an array [min, max]`);
+        }
+        if(typeof value[0] != 'number' && typeof value[1] != 'number'){
+            throw new Error(`both ${value[0]} and ${value[1]} must be of type number`)
+        }
+    }else{
+        if( keyType != getType(value) && keyType != 'array' &&  keyType != 'object'){
+            throw new Error(`${value} must be of type ${keyType}, because ${key} is type of ${keyType}`)
+        }
+    }
+    return caseWhere( where, rows, key, keyType, value, type )   
 
-    switch(keyType){
-        case 'number' :
-            if ( !whereForEachType.number.includes(where) ){
-                invalidWhere( key, keyType, where, value)
-            }
-            return caseWhere( where, rows, key, keyType, value, type )
-        case 'string' :
-            if ( !whereForEachType.string.includes(where) ){
-                invalidWhere( key, keyType, where, value)
-            }
-            return caseWhere( where, rows, key, keyType, value, type )
-        case 'array' :
-            if ( !whereForEachType.array.includes(where) ){
-                invalidWhere( key, keyType, where, value)
-            }
-            return caseWhere( where, rows, key, keyType, value, type )
-            
-    }
 }
 
 
@@ -40,88 +36,84 @@ const invalidWhere = ( key, keyType, where, value) => {
     throw new Error(`cannot perform ${key} ${where} ${value} on a ${keyType}`)
 }
 
-const caseWhere = ( where, rows, key, keyType, value, type ) => {
-    switch(where){
-        case '==' :
-            if (type == 'one'){
-                console.log('hhh')
-                return rows.find((row) => row.get(`${key}:${keyType}`) == value);
-            }
-            if(type == 'many'){
-                return rows.filter((row) => row.get(`${key}:${keyType}`) == value);
-            }
-        case '!=' :
-            if (type == 'one'){
-                return rows.find((row) => row.get(`${key}:${keyType}`) != value);
-            }
-            if(type == 'many'){
-                return rows.filter((row) => row.get(`${key}:${keyType}`) != value);
-            }
-        case '<=' :
-            if (type == 'one'){
-                return rows.find((row) => row.get(`${key}:${keyType}`) <= value);
-            }
-            if(type == 'many'){
-                return rows.filter((row) => row.get(`${key}:${keyType}`) <= value);
-            }
-        case '>=' :
-            if (type == 'one'){
-                return rows.find((row) => row.get(`${key}:${keyType}`) >= value);
-            }
-            if(type == 'many'){
-                return rows.filter((row) => row.get(`${key}:${keyType}`) >= value);
-            }
-        case '<' :
-            if (type == 'one'){
-                return rows.find((row) => row.get(`${key}:${keyType}`) < value);
-            }
-            if(type == 'many'){
-                return rows.filter((row) => row.get(`${key}:${keyType}`) < value);
-            }
-        case '>' :
-            if (type == 'one'){
-                return rows.find((row) => row.get(`${key}:${keyType}`) > value);
-            }
-            if(type == 'many'){
-                return rows.filter((row) => row.get(`${key}:${keyType}`) > value);
-            }
-        case 'includes' :
-            if(keyType == 'array'){
-                if (type == 'one'){
-                    return rows.find((row) =>{
-                        console.log( typeof row.get(`${key}:${keyType}`) )
-                        if(row.get(`${key}:${keyType}`).includes(value)){
-                            return row
-                        }
-                    } );
+const caseWhere = (where, rows, key, keyType, value, type) => {
+    
+    switch (where) {
+        
+        case '==':
+        case '!=':
+            const keyVal = keyType === 'boolean' ? (value === true ? 'TRUE' : 'FALSE') : null;
+            if (keyType === 'boolean') {
+                if (type === 'one') {
+                    return rows.find((row) => row.get(`${key}:${keyType}`) == keyVal);
                 }
-                if(type == 'many'){
-                    return rows.filter((row) => row.get(`${key}:${keyType}`).includes(value));
-                }
+                return rows.filter((row) => row.get(`${key}:${keyType}`) == keyVal);
             }
-            if (type == 'one'){
-                return rows.find((row) => row.get(`${key}:${keyType}`).includes(value));
+            if (type === 'one') {
+                return rows.find((row) => eval(`row.get('${key}:${keyType}') ${where} value`));
             }
-            if(type == 'many'){
-                return rows.filter((row) => row.get(`${key}:${keyType}`).includes(value));
+            return rows.filter((row) => eval(`row.get('${key}:${keyType}') ${where} value`));
+
+
+        case '<=':
+        case '>=':
+        case '<':
+        case '>':
+            const comparisonOperator = where;
+            if (type === 'one') {
+                return rows.find((row) => eval(`row.get('${key}:${keyType}') ${comparisonOperator} value`));
             }
-        case 'startsWith' :
-            if (type == 'one'){
-                return rows.find((row) => row.get(`${key}:${keyType}`).startsWith(value));
+            return rows.filter((row) => eval(`row.get('${key}:${keyType}') ${comparisonOperator} value`));
+
+
+        case 'between':
+            const [minValue, maxValue] = value;
+            const result = rows.filter((row) => {
+                const rowValue = row.get(`${key}:${keyType}`);
+                return rowValue >= minValue && rowValue <= maxValue;
+            });
+            return type === 'one' ? result[0] : result;
+            
+        case 'includes':
+        case '!includes' :
+            const includesOrNot = where == '!includes' ? '!' : ''
+            if (keyType === 'array') {
+                const filteredRows = rows.filter((row) => {
+                    const rowVal = row.get(`${key}:${keyType}`);
+                    return rowVal !== undefined && eval(`${includesOrNot}JSON.parse(rowVal).includes(value)`)
+                });
+                return type === 'one' ? filteredRows[0] : filteredRows;
             }
-            if(type == 'many'){
-                return rows.filter((row) => row.get(`${key}:${keyType}`).startsWith(value));
+            if (type === 'one') {
+                return rows.find((row) =>eval(`${includesOrNot}row.get('${key}:${keyType}').includes(value)`) );
             }
-        case 'endsWith' :
-            if (type == 'one'){
-                return rows.find((row) => row.get(`${key}:${keyType}`).endsWith(value));
+            return rows.filter((row) => eval(`${includesOrNot}row.get('${key}:${keyType}').includes(value)`));
+
+
+        case 'startsWith':
+        case 'endsWith':
+            const stringFunction = where === 'startsWith' ? 'startsWith' : 'endsWith';
+            if (type === 'one') {
+                return rows.find((row) => row.get(`${key}:${keyType}`)[stringFunction](value));
             }
-            if(type == 'many'){
-                return rows.filter((row) => row.get(`${key}:${keyType}`).endsWith(value));
-            }
+            return rows.filter((row) => row.get(`${key}:${keyType}`)[stringFunction](value));
+
+
+        case 'hasKey':
+        case '!hasKey':
+            const notHasKey = where == '!hasKey' ? '!' : ''
+            const filteredRows = rows.filter((row) => {
+                const rowVal = row.get(`${key}:${keyType}`);
+                return rowVal !== undefined && eval(`${notHasKey}JSON.parse(rowVal)[value]`);
+            });
+            return type === 'one' ? filteredRows[0] : filteredRows;
+        
+
         default:
-            console.log('default in case where')
+            console.log('default in case where');
+            return null;
     }
-}
+};
+
 
 module.exports = whereQuery
