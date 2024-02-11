@@ -1,11 +1,11 @@
 const getType = require('./getType')
 
 const whereForEachType = {
-    number:['==','!=','<=','>=','<','>','between'],
-    string:['==','!=','includes','!includes','startsWith','endsWith'],
-    boolean:['==','!='],
-    array:['includes','!includes'],
-    object:['hasKey','!hasKey']
+    number:['==','!=','<=','>=','<','>','between','isEmpty'],
+    string:['==','!=','includes','!includes','startsWith','endsWith','isEmpty'],
+    boolean:['==','!=','isEmpty'],
+    array:['includes','!includes','isEmpty'],
+    object:['hasKey','!hasKey','isEmpty']
 
 }
 
@@ -108,6 +108,21 @@ const caseWhere = (where, rows, key, keyType, value, type) => {
             });
             return type === 'one' ? filteredRows[0] : filteredRows;
         
+        
+        case 'isEmpty':
+            console.log('isEmpty')
+            const isEmptyRows = rows.filter((row) => {
+                const rowVal = row.get(`${key}:${keyType}`);
+                if(keyType == 'number' || keyType == 'string' || keyType == 'boolean'){
+                    return rowVal.length == 0 || rowVal == undefined
+                }else{
+                    console.log(rowVal)
+                    return rowVal == undefined || JSON.parse(rowVal) == [] || JSON.parse(rowVal) == {}   
+                } 
+            })
+            console.log(isEmptyRows)
+            return type == 'one' ? isEmptyRows[0] : isEmptyRows;
+
 
         default:
             console.log('default in case where');
