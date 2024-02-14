@@ -45,7 +45,7 @@ export const AppProvider = ({ children }) => {
     const handelFormSubmit = (e, authType,navigate) => {
         e.preventDefault()
         const data = convertFormData(e.target)
-        if(data.password.length < 8){
+        if(data.password.length < 6){
             let message = `Password must be atleast 8 characters`
             let status = false
             addNotification(message,status)
