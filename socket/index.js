@@ -3,7 +3,7 @@ const used = process.memoryUsage()
 var port = 5050
 const io = require('socket.io')(port,{
     cors : {
-        origin : [ 'https://didactic-acorn-459wwgp77j72j9vv-3000.app.github.dev' ]
+        origin : [ 'https://didactic-acorn-459wwgp77j72j9vv-3000.app.github.dev','http://localhost:3000' ]
     }
 })
 
@@ -11,7 +11,7 @@ const sheetCache = new NodeCache()
 const apikeyCache = new NodeCache()
 
 io.on('connection' , (socket) => {
-    console.log('port 1')
+    console.log('local port')
     console.log(socket.id)
     socket.on('get' , (data) => {
         const key = data.key
@@ -31,7 +31,7 @@ io.on('connection' , (socket) => {
         var value = data.value
         var time = data.time
         var cache = data.cache
-        console.log(data)
+        // console.log(data)
         if (cache == 'sheet'){
             if (time) sheetCache.set(key,value,time)
             else sheetCache.set(key,value)
@@ -41,14 +41,15 @@ io.on('connection' , (socket) => {
         } 
     })
 
-    setInterval(()=>{
+    setInterval(() => {
+        const used = process.memoryUsage();
         const formatMemory = {
-            heapTotla : Math.round(used.heapTotal / 1024 / 1024 * 100) / 100,
-            heapUSed : Math.round(used.heapUsed / 1024 / 1024 * 100) / 100,
-            external : Math.round(used.external / 1024 / 1024 * 100) / 100,
-            ram : Math.round(used.rss / 1024 / 1024 * 100) / 100
-        }
-        socket.emit('memory',formatMemory)
-    },2000)
+            heapTotal: Math.round(used.heapTotal / 1024 / 1024 * 100) / 100,
+            heapUsed: Math.round(used.heapUsed / 1024 / 1024 * 100) / 100,
+            external: Math.round(used.external / 1024 / 1024 * 100) / 100,
+            ram: Math.round(used.rss / 1024 / 1024 * 100) / 100
+        };
+        io.emit('memory', formatMemory); // Emit to all connected clients
+    }, 5000);
 })
 

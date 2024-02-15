@@ -3,7 +3,7 @@ const { sheetCache } = require('./utils/nodeCache')
 
 const socketLinks = [
     'https://didactic-acorn-459wwgp77j72j9vv-5050.app.github.dev',
-    'https://didactic-acorn-459wwgp77j72j9vv-5051.app.github.dev',
+    'http://localhost:5050',
 
 ]
 
@@ -51,12 +51,12 @@ const findSocketWithLessMemoryUsage = (multipleSockets,socketcache) => {
     }
     return {socket : socketWhichHasMoreSpace, minRam:min, index : i}
 }
-const setCache = (cache,key,value,apikeyCache,multipleSockets,socketcache) => {
+const setCache = (cache,key,value,time) => {
     const {socket, min ,index} = findSocketWithLessMemoryUsage(multipleSockets,socketcache)
     const data ={
         key:key,
         value:value,
-        time:1800,
+        time:time,
         cache
     }
     apikeyCache[key] = 'socket'+index
@@ -65,15 +65,18 @@ const setCache = (cache,key,value,apikeyCache,multipleSockets,socketcache) => {
 }
 
 setTimeout(()=>{
-    var value = 'heyjeuioirgjpaeoriguiropapougpaierugioarjvbiorjaeipoguiaperougioajioaeipjjgeaijgiaperohgioaperhuiyaetubhuaenguaegupaepogiaeoptguaioetpugiouoiaetguaeoghiotjiaeogjiopeajgejgiojeiogjiojgioaejoigjaeio'
+    var value = 'A'.repeat(1024*100)
+    // console.log(value)
     console.log(socketcache)
-    setCache('sheet','123apikey',value,apikeyCache,multipleSockets,socketcache)
-    setTimeout(()=>{
-        value='hey'
-        setCache('sheet','123apikey2',value,apikeyCache,multipleSockets,socketcache)
+    setCache('sheet','123apikey',value,1800)
+    let i=0
+    setInterval(()=>{
+        setCache('sheet','123apikey'+i,value,1800)
+        multipleSockets[1].emit('get',{key:'123apikey'+i})
         console.log(apikeyCache)
+        console.log(socketcache)
+        i+=1
     },5000)
-
     // console.log(findSocketWithLessMemoryUsage(multipleSockets,socketcache))
 },15000)
 // multipleSockets.map( (socket,i)=>{
