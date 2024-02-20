@@ -23,7 +23,7 @@ io.on('connection' , (socket) => {
             result = apikeyCache.get(key)
         }
         console.log(result)
-        io.emit('clientGet',result)
+        io.emit('clientGet',{result,key})
     })
 
     socket.on('set',(data)=>{

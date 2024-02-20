@@ -153,7 +153,7 @@ servers.forEach((server) => {
 
 // Function to get data
 function getData(key) {
-    const server = dataServerMap[key];
+    const server = dataServerMap[key].link;
     if (server) {
         const socket = io(server);
         socket.emit('get', { key: key, cache: 'sheet' });
@@ -166,7 +166,8 @@ function setData(key, value, time) {
     console.log(`data stored in ${server}`)
     const socket = io(server);
     socket.emit('set', { key: key, value: value, time: time, cache: 'sheet' });
-    dataServerMap[key] = server;
+    dataServerMap[key] = {}
+    dataServerMap[key].link = server;
 }
 let i=0
 setInterval(()=>{
