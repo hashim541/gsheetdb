@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const compression = require('compression')
 const morgan = require('morgan')
 
-const socket  = require('./socketClient')
+// const socket  = require('./socketClient')
 
 const registerRouts = require('./routers/registerRoute')
 const getApiKeyRouts = require('./routers/getApiKeyRoute')
