@@ -1,6 +1,7 @@
 const {getSheet} = require('../utils/authSheet')
 const {formatData} = require('../utils/formatData')
 const whereQuery = require('../utils/whereQuery')
+const sortMethod = require('../utils/sort')
 
 const findOne = async (req, res) => {
     try {
@@ -48,6 +49,8 @@ const findMany = async(req, res) => {
         const value = reqData.query.value || ''
         const where = reqData.query.where || '==';
         const type = 'many'
+        const sort = reqData.query.sort || '_rowNumber:asc'
+
         const sheet = await getSheet(reqData, res)
         if(sheet){
 
@@ -57,8 +60,8 @@ const findMany = async(req, res) => {
                 const result = whereQuery( rows, key, keyType, value, where, type )
                     .map((row) => formatData(row, headers, schemaKeys, reqData.query.return))
 
-
-                res.status(200).json(result)
+                const finalResult = sortMethod(sort,result,schemaKeys)
+                res.status(200).json(finalResult)
             }else{
                 return res.status(400).json({ error: `${key} doesn't exist in header` });
             }

@@ -110,17 +110,14 @@ const caseWhere = (where, rows, key, keyType, value, type) => {
         
         
         case 'isEmpty':
-            console.log('isEmpty')
             const isEmptyRows = rows.filter((row) => {
                 const rowVal = row.get(`${key}:${keyType}`);
                 if(keyType == 'number' || keyType == 'string' || keyType == 'boolean'){
                     return rowVal.length == 0 || rowVal == undefined
                 }else{
-                    console.log(rowVal)
                     return rowVal == undefined || JSON.parse(rowVal) == [] || JSON.parse(rowVal) == {}   
                 } 
             })
-            console.log(isEmptyRows)
             return type == 'one' ? isEmptyRows[0] : isEmptyRows;
 
 

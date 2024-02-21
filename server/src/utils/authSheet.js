@@ -74,6 +74,7 @@ const getSheet = async (reqData, res) => {
         newSheet.headers = Dtype.heads
         newSheet.schema = Dtype.value
         newSheet.schemaKeys = newSheet.schema.describe().keys
+        newSheet.schemaKeys._rowNumber = {type:'number'}
 
         sheetCache.set(str, newSheet, 1800)
 
