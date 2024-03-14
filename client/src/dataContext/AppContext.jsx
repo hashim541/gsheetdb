@@ -79,13 +79,38 @@ export const AppProvider = ({ children }) => {
         });
     }
     
+    const handelGetApikey = (e) =>{
+        e.preventDefault()
+        const data = convertFormData(e.target)
+        console.log(User)
+        const options ={
+            method:'POST',
+            url:url+'/user/getapikey',
+            headers: {'Content-Type': 'application/json'},
+            data:JSON.stringify(data)
+        }
+        axios(options)
+        .then(response => {
+            const userData = response.data
+            userData.auth = true
+            setUser(userData)
+
+            addNotification('Apikey created',true)
+            navigate('/dashboard')
+        })
+        .catch(error => {
+            console.log('Response data:', error.response.data);
+            addNotification(error.response.data.error,false)
+        });
+    }
 
 // all data
     const contextValue = {
         User,
         scrollTop,handelWindowHeight,
         handelFormSubmit,
-        notification
+        notification,
+        handelGetApikey
     };
 
     return (

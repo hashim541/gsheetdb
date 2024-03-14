@@ -9,9 +9,9 @@ const DashNavBar = () => {
         <nav className="nav2">
             <h3 className="logo2">GSHEET<span className='db'>DB</span></h3>
             <div className="routes">
-                <Link to='/dashboard'><img src={dashSVG} alt="" /> <h4>Dashboard</h4></Link>
-                <Link to='/dashboard/Apikey'><img src={apikeySVG} alt="" /> <h4>Apikey</h4></Link>
-                <Link to='/dashboard/setting'><img className='padd' src={settingSVG} alt="" /><h4>Setting</h4></Link>
+                <Link to='/dashboard'><img src={dashSVG} alt="" /> <h4 className='paths'>Dashboard</h4></Link>
+                <Link to='/dashboard/Apikey'><img src={apikeySVG} alt="" /> <h4 className='paths'>Apikey</h4></Link>
+                <Link to='/dashboard/setting'><img className='padd' src={settingSVG} alt="" /><h4 className='paths'>Setting</h4></Link>
             </div>
             <div className="logout">
                 <button className='btn logout-btn'>Logout</button>

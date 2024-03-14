@@ -7,7 +7,6 @@ const { authClient } = require('../utils/auth/auth')
 
 const getApiKey = async(req, res) => {
     const userData = req.body;
-
     if(!userData.email){
         return res.status(400).json({error:'Please provide an email'})
     }
@@ -20,7 +19,7 @@ const getApiKey = async(req, res) => {
         return res.status(400).json({error:'Please provide a google service private key'})
     }
 
-    if(!userData.privateKey.includes('\n')){
+    if(!userData.privateKey.includes('\\n')){
         return res.status(400).json({error:'Please provide with a valid google service private key'})
     }
 
@@ -65,7 +64,7 @@ const getApiKey = async(req, res) => {
                             .then((result) => {
                                 return res.status(200).json({
                                     succuss:'APIkey created',
-                                    apiKey:APIKEY.key
+                                    user:result
                                 })
                             })
                             .catch((err) => {

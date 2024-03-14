@@ -1,9 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&display=swap');
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Quicksand', sans-serif;
+  /* font-family: 'Quicksand', sans-serif; */
+  /* font-family: monospace; */
+  font-family: "Kode Mono", monospace;
 }
 ::-webkit-scrollbar {
   display: none;
@@ -397,20 +400,22 @@ pre{
   gap:7px;
 }
 .input > label{
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1.3rem;
+  opacity: .9;
+  font-weight: 500;
   color: var(--header);
   text-transform: capitalize;
 }
 .input > input{
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: var(--para);
-  font-weight: 600;
+  font-weight: 400;
   border: 1px solid var(--gray);
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
   outline: none;
   width: 100%;
-  padding: 6px 10px;
+  padding: 8px 15px;
+  opacity: .9;
 }
 .auth-btn{
   font-size: 1.3rem;
@@ -570,6 +575,7 @@ pre{
 .main2{
   display:flex;
   min-height: 100vh;
+  width: 100%;
 }
 .routes > a{
   text-decoration: none;
@@ -589,7 +595,7 @@ pre{
 .routes > a >img{
   width: 50px;
 }
-h4{
+.paths{
   color: var(--gray);
   font-size: 1.2rem;
   font-weight: 900;
@@ -630,4 +636,32 @@ h4{
   font-size: 1rem;
   color: var(--gray);
   font-weight: 600;
+}
+
+.submain2{
+  width: 100%;
+  padding: 20px;
+}
+.apikey-route{
+  display: flex;
+  flex-direction: column;
+  gap:30px;
+}
+.new-apikey,.your-apikeys{
+  padding-left: 15px;
+}
+.apikey-h4{
+  font-weight: 600;
+}
+.apikey-get-form{
+  max-width: 700px;
+  padding: 25px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap:25px;
+}
+.apikey-form-btn{
+  margin-top:15px;
+  align-self: flex-end;
 }
