@@ -18,19 +18,76 @@ const sortMethod = (sort,result,schemaKeys) => {
     }
     switch(type){
         case 'string':
-            return
+            if(sortOrder == 'asc'){
+                return result.sort((a, b) => {
+                    const aValue = a[sortHeader];
+                    const bValue = b[sortHeader];
+                    return aValue.localeCompare(bValue);
+                  });
+            }else{
+                return result.sort((a, b) => {
+                    const aValue = a[sortHeader];
+                    const bValue = b[sortHeader];
+                    return bValue.localeCompare(aValue);
+                  });
+            }
         case 'number':
-            console.log('number case')
             if(sortOrder == 'asc'){
                 return result.sort( (a,b) => eval(`a.${sortHeader} - b.${sortHeader}`))
             }else{
                 return result.sort((a,b) => eval(`b.${sortHeader} - a.${sortHeader}`))
             }
         case 'boolean':
-            return
+            if(sortOrder == 'asc'){
+                return result.sort((a, b) => {
+                   // Handle case where a[sortHeader] is undefined
+                   if (a[sortHeader] === undefined) {
+                    return 1; // Move undefined values to the end
+                  }
+                  
+                  // Handle case where b[sortHeader] is undefined
+                  if (b[sortHeader] === undefined) {
+                    return -1; // Move undefined values to the end
+                  }
+                
+                  // Compare boolean values if both are defined
+                  if (a[sortHeader] === b[sortHeader]) {
+                    return 0;
+                  } else if (a[sortHeader]) {
+                    return -1; // true comes before false
+                  } else {
+                    return 1; // false comes after true
+                  }
+                });
+                
+            }else{
+                return result.sort((a, b) => {
+                    // Handle case where a[sortHeader] is undefined
+                    if (a[sortHeader] === undefined) {
+                        return -1; // Move undefined values to the end
+                      }
+                      
+                      // Handle case where b[sortHeader] is undefined
+                      if (b[sortHeader] === undefined) {
+                        return 1; // Move undefined values to the end
+                      }
+                    
+                    
+                  
+                    // Compare boolean values if both are defined
+                    if (a[sortHeader] === b[sortHeader]) {
+                      return 0;
+                    } else if (a[sortHeader]) {
+                      return 1; // true comes after false and undefined
+                    } else {
+                      return -1; // false comes before true and undefined
+                    }
+                  });
+            }
         default:
             console.log('default sort case')
     }
 }
+
 
 module.exports = sortMethod
