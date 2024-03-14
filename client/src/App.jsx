@@ -51,7 +51,7 @@ import { useState } from "react";
 function App() {
   const [res,setRes]=useState(JSON.stringify('hey'))
   async function handleForm() {
-    const gurl='https://verbose-succotash-x7qvv9qj6942vv9j-3000.app.github.dev'
+    const gurl='https://bookish-memory-5jpxx47qqr934j7j-3000.app.github.dev'
     const url = 'http://localhost:3000'
     const liveurl='https://holy-sheet.onrender.com'
     console.log('send');
@@ -71,7 +71,7 @@ function App() {
         spreadSheetId:'11V0iILqRDt-K0NX6TH74YKGsE12-P-a-q-xQfTRGw2g',
         // spreadSheetId:'1BXNEpTaOQUq4hOL-163PIb1jaWKYrtwE5Fk4e2dHp68',
         sheetIndex:0,
-        query:{header:'Array',value:[],unique:'',where:'isEmpty',return:[]},
+        query:{header:'Age',value:25,unique:'',where:'<=',return:[],sort:'uouo:desc'},
         data:
           // {
           //   JobTitle:'teacher'
@@ -91,7 +91,7 @@ function App() {
     
 
     try {
-      const response = await fetch(url+'/query/findOne',options)
+      const response = await fetch(gurl+'/query/findMany',options)
       const data = await response.json()
       setRes(JSON.stringify(data))
     } catch (error) {
