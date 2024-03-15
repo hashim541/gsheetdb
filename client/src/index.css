@@ -401,7 +401,6 @@ pre{
 }
 .input > label{
   font-size: 1.3rem;
-  opacity: .9;
   font-weight: 500;
   color: var(--header);
   text-transform: capitalize;
@@ -409,13 +408,12 @@ pre{
 .input > input{
   font-size: 1.1rem;
   color: var(--para);
-  font-weight: 400;
+  font-weight: 500;
   border: 1px solid var(--gray);
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
   outline: none;
   width: 100%;
   padding: 8px 15px;
-  opacity: .9;
 }
 .auth-btn{
   font-size: 1.3rem;
@@ -571,11 +569,16 @@ pre{
   padding: 20px;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 .main2{
   display:flex;
   min-height: 100vh;
-  width: 100%;
+  
+  margin-left: 204px;
 }
 .routes > a{
   text-decoration: none;
@@ -650,12 +653,29 @@ pre{
 .new-apikey,.your-apikeys{
   padding-left: 15px;
 }
+.your-apikeys{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap:25px;
+}
 .apikey-h4{
   font-weight: 600;
 }
 .apikey-get-form{
-  max-width: 700px;
   padding: 25px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap:25px;
+}
+.form-seperator{
+  width: 100%;
+  display: flex;
+  gap: 30px;
+}
+.fs{
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -664,4 +684,56 @@ pre{
 .apikey-form-btn{
   margin-top:15px;
   align-self: flex-end;
+}
+.list-of-apikeys{
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+}
+.each-apikey{
+  padding: 8px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap:20px;
+  border-radius: 8px;
+}
+.black{
+  background-color: var(--para);
+}
+.keybtn{
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  transition: all 100ms linear;
+
+}
+/* .blackbtn{
+  background-color: var(--para);
+  color: var(--gray);
+} */
+.white{
+  color:var(--gray)
+}
+.apikey{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap:20px;
+}
+.copy{
+  cursor: pointer;
+  padding: 7px 6px;
+  border-radius: 20%;
+  background-color: var(--para);
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items:center ;
+  transition: all 100ms linear;
+}
+.copy:hover,.keybtn:hover{
+  scale: 1.2;
 }

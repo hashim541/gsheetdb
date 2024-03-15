@@ -12,7 +12,7 @@ export const AppProvider = ({ children }) => {
 // useStates and useRefs
 
     const [scrollTop,setScrollTop] = useState(true)
-    const [User,setUser] = useState({auth:true})
+    const [User,setUser] = useState({auth:false})
     const [notification,setNotification] = useState([])
 // functions
     const addNotification = (message, status) => {
@@ -92,8 +92,8 @@ export const AppProvider = ({ children }) => {
         axios(options)
         .then(response => {
             const userData = response.data
-            userData.auth = true
-            setUser(userData)
+            userData.user.auth = true
+            setUser(userData.user)
 
             addNotification('Apikey created',true)
             navigate('/dashboard')
@@ -103,6 +103,15 @@ export const AppProvider = ({ children }) => {
             addNotification(error.response.data.error,false)
         });
     }
+    const handelCopyApikey = (apikey) => {
+        navigator.clipboard.writeText(apikey)
+        .then(()=>{
+            addNotification('Copied to clipboard',true)
+        })
+        .catch(()=>{
+            addNotification('Error copying to clipboard',true)
+        })
+    }
 
 // all data
     const contextValue = {
@@ -110,7 +119,7 @@ export const AppProvider = ({ children }) => {
         scrollTop,handelWindowHeight,
         handelFormSubmit,
         notification,
-        handelGetApikey
+        handelGetApikey,handelCopyApikey
     };
 
     return (
