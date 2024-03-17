@@ -6,6 +6,7 @@ import RegisterPage from './pages/auth/RegisterPage'
 import Dashboard from './pages/dashboard/Dashboard';
 import Setting from './pages/dashboard/Setting';
 import Apikey from './pages/dashboard/Apikey';
+import Documentation from './pages/dashboard/Documentation';
 
 import Notifications from './pages/Notifications';
 import { AppProvider } from './dataContext/AppContext';
@@ -30,6 +31,7 @@ function App(){
               <Route path="/dashboard" element={<AuthRequired />}>
                 <Route path='' element={<Dashboard />} />
                 <Route path="ApiKey" element={<Apikey/>}/>
+                <Route path='documentation' element={<Documentation/>}/> 
                 <Route path="productDetails" />
                 <Route path="addProduct" />
                 <Route path="notification" />
@@ -63,7 +65,7 @@ export default App
 //       method:'POST',
 //       headers: {
 //         'Content-Type': 'application/json',
-//         'apikey':'5ca5543e-f0cc-460e-87ca-0fc46d0c8f58'
+//         'apikey':'10ee9369-bad9-4c7a-b14b-60fe5b20d8bb'
 //         // 'apikey':'afe9d854-8d41-4c52-95dd-96ca3c0e88f9'
 //       },
 //       body:JSON.stringify({

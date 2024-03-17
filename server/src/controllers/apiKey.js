@@ -92,4 +92,84 @@ const getApiKey = async(req, res) => {
 
 }
 
-module.exports = { getApiKey }
+const toggleApikeyState = async ( req, res ) => {
+    const data = req.body
+    try {
+        if(data.key == undefined) throw new Error('Please provide an apikey')
+        if(data.email == undefined) throw new Error('Please provide an email')
+        if(data.state == undefined) throw new Error('Please provide an apikey state')
+
+        APIKey.updateOne({ApiKey:data.key},{$set:{active:data.state}})
+        .then(resul => {
+            console.log(data,resul)
+        })
+        .catch(error => {
+            throw new Error (error.message)
+        })
+        User.findOne({email:data.email})
+            .then(result =>{
+                const filteredData = result.userApiKeys.map(d => {
+                    if(d.key == data.key){
+                        d.active = data.state
+                    }
+                    return d
+                })
+                User.findOneAndUpdate({email:data.email},{$set : {userApiKeys :filteredData}})
+                .then(resu => {
+                    resu.userApiKeys = filteredData
+                    res.status(200).json({user:resu})
+                })
+                .catch(error => {
+                    throw new Error (error.message)
+                })
+            })
+        .catch(error => {
+            throw new Error (error.message)
+        })
+        
+
+    } catch (error) {
+        console.log(error.message)
+        res.status(400).json({error: error.message})
+    }
+
+}
+
+const deleteApikey = async( req, res ) => {
+
+    const data = req.body
+    try {
+        
+        if(data.key == undefined) throw new Error('Please provide an apikey')
+        if(data.email == undefined) throw new Error('Please provide an email')
+
+        APIKey.deleteOne({ApiKey:data.key})
+        .then(result1 => {
+            User.findOne({email:data.email})
+            .then(result =>{
+                const filteredData = result.userApiKeys.filter(d => {
+                    if(d.key != data.key){
+                        return d
+                    }
+                })
+                User.findOneAndUpdate({email:data.email},{$set : {userApiKeys :filteredData}})
+                .then(resu => {
+                    resu.userApiKeys = filteredData
+                    res.status(200).json({user:resu})
+                })
+                .catch(error => {
+                    throw new Error (error.message)
+                })
+            })
+        }).catch(error => {
+            throw new Error (error.message)
+        })
+
+    } catch (error) {
+        console.log(error.message)
+        res.status(400).json({error: error.message})
+    }
+
+}
+
+module.exports = { getApiKey, toggleApikeyState, deleteApikey }

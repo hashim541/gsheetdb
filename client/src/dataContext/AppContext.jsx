@@ -12,7 +12,7 @@ export const AppProvider = ({ children }) => {
 // useStates and useRefs
 
     const [scrollTop,setScrollTop] = useState(true)
-    const [User,setUser] = useState({auth:false})
+    const [User,setUser] = useState({auth:true})
     const [notification,setNotification] = useState([])
 // functions
     const addNotification = (message, status) => {
@@ -82,7 +82,10 @@ export const AppProvider = ({ children }) => {
     const handelGetApikey = (e) =>{
         e.preventDefault()
         const data = convertFormData(e.target)
-        console.log(User)
+        if(data.email != User.email){
+            addNotification('Please enter your email address',false)
+            return
+        }
         const options ={
             method:'POST',
             url:url+'/user/getapikey',
@@ -112,6 +115,51 @@ export const AppProvider = ({ children }) => {
             addNotification('Error copying to clipboard',true)
         })
     }
+    const toggleApikeyState = (apikey, apikeyState) => {
+        const data = {
+            key:apikey,
+            email:User.email,
+            state:!apikeyState
+        }
+        const options ={
+            method:'POST',
+            url:url+'/user/toggleApikeyState',
+            headers: {'Content-Type': 'application/json'},
+            data:JSON.stringify(data)
+        }
+        axios(options)
+        .then(response => {
+            const newUser = response.data.user
+            newUser.auth=true
+            setUser(newUser)
+        })
+        .catch(error => {
+            console.log('Response data:', error.response.data);
+            addNotification(error.response.data.error,false)
+        })
+    }   
+    const handelDeleteApikey = (key) => {
+        const data = {
+            key:key,
+            email:User.email
+        }
+        const options ={
+            method:'POST',
+            url:url+'/user/deleteApikey',
+            headers: {'Content-Type': 'application/json'},
+            data:JSON.stringify(data)
+        }
+        axios(options)
+        .then(response => {
+            const newUser = response.data.user
+            newUser.auth=true
+            setUser(newUser)
+        })
+        .catch(error => {
+            console.log('Response data:', error.response.data);
+            addNotification(error.response.data.error,false)
+        })
+    }
 
 // all data
     const contextValue = {
@@ -119,7 +167,7 @@ export const AppProvider = ({ children }) => {
         scrollTop,handelWindowHeight,
         handelFormSubmit,
         notification,
-        handelGetApikey,handelCopyApikey
+        handelGetApikey,handelCopyApikey,toggleApikeyState,handelDeleteApikey
     };
 
     return (
