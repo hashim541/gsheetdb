@@ -1,7 +1,7 @@
 import { useState } from "react"
 import copySVG from '../../../../asset/svg/copy.svg'
 import deleteBlackSVG from '../../../../asset/svg/deleteb.svg'
-import deleteWhiteSVG from '../../../../asset/svg/deleteW.svg'
+import deleteWhiteSVG from '../../../../asset/svg/deletew.svg'
 import AppContext from "../../../dataContext/AppContext"
 import { useContext } from "react"
 

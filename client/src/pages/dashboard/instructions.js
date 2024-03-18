@@ -40,6 +40,16 @@ const instructions = [
         "You will be asked to choose a Key Type. Select 'JSON'.",
         "After selecting 'JSON', click the 'Create' button. This will download the service account key, which will be named `keyfile.json`, to your computer."
       ]
+    },
+    {
+      title:"How to get client Email and Private Key",
+      steps:[
+        "Open keyfile.json  you can see clientEmail and private key copy them both",
+        "Paste them in api route /dashboard/apikey and click on get apikey button",
+        "After creating apikey you can check them in your apikey section",
+        "Now you can use them in your project",
+        "!! IMPORTANT PLEASE DONT SHARE YOU APIKEY, CLIENT EMAIL, PRIVATE KEY !!"
+      ]
     }
 ]
 export default instructions
