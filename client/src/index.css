@@ -769,7 +769,16 @@ pre{
   list-style: none;
 }
 .each-step{
+  font-size: 1.2rem;
+  font-weight: 400;
   display: flex;
   align-items: flex-start;
   gap:10px;
+}
+.step-img{
+  align-self: flex-start;
+  
+}
+.step-img > img{
+  max-width: 500px;
 }
