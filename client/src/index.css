@@ -780,12 +780,22 @@ pre{
   
 }
 .step-img > img{
+  cursor: pointer;
   max-width: 700px;
   max-height: 50vh;
   margin-left: 30px;
   margin-bottom: 20px;
   margin-top: 20px;
   border-radius: 10px ;
-  box-shadow: rgba(0, 0, 0, .1) 0px 1px 1px -1px, rgba(0, 0, 0, 0.3) 0px 5px 5px 0px;
+  box-shadow: rgba(0, 0, 0, .1) 0px 1px 1px -1px, rgba(0, 0, 0, 0.15) 0px 5px 5px 0px;
+  transition: all 150ms ease-out;
+  position: relative;
+  top: 0px;
+}
+.step-img>img:hover{
+  scale: 1.01;
+  position: relative;
+  top: -5px;
+  box-shadow: rgba(0, 0, 0, .1) 0px 1px 1px -1px, rgba(0, 0, 0, 0.3) 0px 10px 10px 0px;
 
 }
