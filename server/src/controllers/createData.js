@@ -95,7 +95,6 @@ const createMany = async (req, res) => {
                     await updateSheet(reqData, sheet);
                 }
             }
-
             res.status(200).json(`Data created: ${dataCreated}, Data already exists: ${dataAlreadyExists}`);
         }
     } catch (error) {
