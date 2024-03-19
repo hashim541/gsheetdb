@@ -9,7 +9,7 @@ const EachStep = ({eachStep}) => {
                 <li>{eachStep.text}</li>
             </div>
             <div className="step-img">
-                <img src={eachStep.img} alt="" />
+                <img loading='lazy' src={eachStep.img} alt="" />
             </div>
             </>
         )
