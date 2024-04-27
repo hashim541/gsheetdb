@@ -38,7 +38,9 @@ export const LandingHero = () => {
                         whileInView={{ opacity: 1, y: 0 }} 
                         viewport={{ once: true }}
                         transition={{ duration: 1, delay: 0.5 }}>
-                        GSheetDB that unlocks the potential of Google Sheets, transforming it into a powerful database platform. With GSheetDB, you can easily store, manage, and query your data in Google Sheets, leveraging the familiar and intuitive interface you already know and love.
+                        GSheetDB that unlocks the potential of Google Sheets, transforming it into a powerful database platform. 
+                        With GSheetDB, you can easily store, manage, and query your data in Google Sheets, leveraging the familiar and intuitive 
+                        interface you already know and love.
                     </motion.p>
                 </div>
                 <div className="hero-img">
@@ -132,6 +134,8 @@ export const LandingKeyfeature = () => {
         </section>
     )
 }
+
+
 export const LandingGetStarted = () => {
     return(
         <section className='landing-section get-start'>

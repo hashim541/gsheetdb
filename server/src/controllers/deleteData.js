@@ -1,4 +1,4 @@
-const { getSheet, updateSheet, updateSheetIndex} = require('../utils/authSheet')
+const { getSheet, updateSheet} = require('../utils/authSheet')
 
 const deleteOne = async(req, res) => {
     req.body.apikey = req.headers["apikey"];
@@ -28,6 +28,7 @@ const deleteOne = async(req, res) => {
         res.status(400).json({error:error.message})
     }
 }
+
 const deleteMany = async(req, res) => {
     req.body.apikey = req.headers["apikey"];
     const reqData = req.body;

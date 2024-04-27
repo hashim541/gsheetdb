@@ -1,8 +1,9 @@
+require('dotenv').config()
 const crypto = require('crypto')
 const zlib = require('zlib');
 
-const algorithm = 'aes-256-ctr'
-const secretKey = 'your-secret-key'
+const algorithm = process.env.ALGORITHM
+const secretKey = process.env.SECRETKEY
 const key = crypto.createHash('sha256').update(String(secretKey)).digest('base64').substr(0, 32)
 const iv = crypto.randomBytes(16)
 

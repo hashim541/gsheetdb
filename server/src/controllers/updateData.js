@@ -2,8 +2,6 @@ const { getSheet, updateSheetIndex} = require('../utils/authSheet')
 const {checkType} = require('./createData')
 const whereQuery = require('../utils/whereQuery')
 
-
-
 const updateOne = async(req, res) => {
     req.body.apikey = req.headers["apikey"];
     const reqData = req.body;

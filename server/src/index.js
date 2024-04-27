@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
@@ -5,7 +7,6 @@ const mongoose = require('mongoose')
 const compression = require('compression')
 const morgan = require('morgan')
 
-// const socket  = require('./socketClient')
 
 const registerRouts = require('./routers/registerRoute')
 const apiKeyRouts = require('./routers/apiKeyRoute')
@@ -19,11 +20,7 @@ const aggregateRouts = require('./routers/aggregateRoute')
 
 const app = express()
 const port = 3000
-const DB_Username = 'hashim00541x'
-const DB_Password = 'P72vzkRm2cd7XxMd'
-const DataBase = 'googleSheet'
-const mongodbURI=`mongodb+srv://${DB_Username}:${DB_Password}@sheet.bz4evue.mongodb.net/${DataBase}?retryWrites=true&w=majority`
-const localURI=`mongodb://127.0.0.1:27017/holySheet`
+const mongodbURI=process.env.CONNECTION_URL
 
 app.use(compression({ threshold: '1b' }))
 
@@ -32,11 +29,6 @@ app.use(morgan('tiny'))
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json());
 
-// {
-//   origin: ["https://upgraded-train-wpjgg9jw64r25gjw-5173.app.github.dev",'http://localhost:5173']
-// }
-// 1xymyqdZ_1S5Nts6pe_dwe6PfHUXBIJsZFEepzHA4agI
-// 11V0iILqRDt-K0NX6TH74YKGsE12-P-a-q-xQfTRGw2g
 
 mongoose.connect(mongodbURI)
 .then(() => {

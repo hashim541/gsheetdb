@@ -4,9 +4,8 @@ const sortMethod = (sort,result,schemaKeys) => {
         throw new Error(`invalid sort query, it must be like header:(asc || desc)`)
     }
     const [sortHeader,sortOrder] = sort.split(':')
-    console.log(sortHeader,sortOrder)
     const type = schemaKeys[sortHeader].type
-    // console.log(result,type)
+
     if (type == undefined){
         throw new Error(`you cannot sort by ${sortHeader},beacuse it dosen't exists in header.`)
     }
@@ -18,19 +17,14 @@ const sortMethod = (sort,result,schemaKeys) => {
     }
     switch(type){
         case 'string':
+          return result.sort((a, b) => {
+            const aValue = a[sortHeader];
+            const bValue = b[sortHeader];
             if(sortOrder == 'asc'){
-                return result.sort((a, b) => {
-                    const aValue = a[sortHeader];
-                    const bValue = b[sortHeader];
-                    return aValue.localeCompare(bValue);
-                  });
-            }else{
-                return result.sort((a, b) => {
-                    const aValue = a[sortHeader];
-                    const bValue = b[sortHeader];
-                    return bValue.localeCompare(aValue);
-                  });
+              return aValue.localeCompare(bValue);
             }
+            return bValue.localeCompare(aValue);
+          });
         case 'number':
             if(sortOrder == 'asc'){
                 return result.sort( (a,b) => eval(`a.${sortHeader} - b.${sortHeader}`))
@@ -40,47 +34,40 @@ const sortMethod = (sort,result,schemaKeys) => {
         case 'boolean':
             if(sortOrder == 'asc'){
                 return result.sort((a, b) => {
-                   // Handle case where a[sortHeader] is undefined
                    if (a[sortHeader] === undefined) {
-                    return 1; // Move undefined values to the end
+                    return 1;
                   }
                   
-                  // Handle case where b[sortHeader] is undefined
                   if (b[sortHeader] === undefined) {
-                    return -1; // Move undefined values to the end
+                    return -1;
                   }
-                
-                  // Compare boolean values if both are defined
+
                   if (a[sortHeader] === b[sortHeader]) {
                     return 0;
                   } else if (a[sortHeader]) {
-                    return -1; // true comes before false
+                    return -1;
                   } else {
-                    return 1; // false comes after true
+                    return 1;
                   }
                 });
                 
             }else{
                 return result.sort((a, b) => {
-                    // Handle case where a[sortHeader] is undefined
+                    
                     if (a[sortHeader] === undefined) {
-                        return -1; // Move undefined values to the end
+                        return -1; 
                       }
                       
-                      // Handle case where b[sortHeader] is undefined
                       if (b[sortHeader] === undefined) {
-                        return 1; // Move undefined values to the end
+                        return 1;
                       }
                     
-                    
-                  
-                    // Compare boolean values if both are defined
                     if (a[sortHeader] === b[sortHeader]) {
                       return 0;
                     } else if (a[sortHeader]) {
-                      return 1; // true comes after false and undefined
+                      return 1;
                     } else {
-                      return -1; // false comes before true and undefined
+                      return -1;
                     }
                   });
             }
