@@ -1,8 +1,6 @@
 const sortMethod = (sort,result,schemaKeys) => {
     const sortArray=['asc','desc']
-    if(!sort.includes(':')){
-        throw new Error(`invalid sort query, it must be like header:(asc || desc)`)
-    }
+    
     const [sortHeader,sortOrder] = sort.split(':')
     const type = schemaKeys[sortHeader].type
 
@@ -12,9 +10,7 @@ const sortMethod = (sort,result,schemaKeys) => {
     if(type == 'array' || type == 'object' ){
         throw new Error(`you cannot sort by ${type}`)
     }
-    if (!sortArray.includes(sortOrder)){
-        throw new Error(`you cannot sort in order by ${sortOrder}`)
-    }
+    
     switch(type){
         case 'string':
           return result.sort((a, b) => {

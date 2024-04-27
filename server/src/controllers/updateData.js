@@ -36,7 +36,7 @@ const updateOne = async(req, res) => {
         }
     } catch (error) {
         console.log(error.message)
-        res.status(400).json({error:error.message})
+        return res.status(400).json({error:error.message})
     }
 }
 
@@ -65,7 +65,7 @@ const updateMany = async(req, res) => {
 
             const row = whereQuery( rows, key, keyType, value, where, type )
             if(row.length <= 0){
-                res.status(400).json(`couldn't find data with ${key} == ${value}`)
+                return res.status(400).json(`couldn't find data with ${key} == ${value}`)
             }
             const result = checkType(reqData.data, schema, schemaKeys)
             const rowsToUpdate=[]
@@ -76,11 +76,11 @@ const updateMany = async(req, res) => {
             })
             rowsToUpdate.reverse()
             await Promise.all(rowsToUpdate)
-            res.status(200).json('data updated successfully')
+            return res.status(200).json('data updated successfully')
         }
     } catch (error) {
         console.log(error.message)
-        res.status(400).json({error:error.message})
+        return res.status(400).json({error:error.message})
     }
 }
 

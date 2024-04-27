@@ -8,16 +8,6 @@ const Joi = require('joi')
 const getSheet = async (reqData, res) => {
     try {
 
-        if(reqData.apikey === undefined){
-            throw new Error('Please provide an apikey in the headers')
-        }
-        if(reqData.spreadSheetId === undefined){
-            throw new Error('Please provide an spread sheet id')
-        }
-        if(reqData.sheetIndex === undefined){
-            throw new Error('Please provide an sheet index')
-        }
-
         const str = `${reqData.apikey},${reqData.spreadSheetId},${reqData.sheetIndex}`
         
         var result = null
@@ -27,6 +17,7 @@ const getSheet = async (reqData, res) => {
             result = await APIKey.findOne({ ApiKey: reqData.apikey })
             apikeyCache.set(reqData.apikey,result,1800)
         }
+
         if (!result) {
             throw new Error('Error finding apikey')
         }
@@ -140,32 +131,6 @@ const switchType = (data)=>{
             return Joi.string()
     }
 }
-// function buildInvertedIndex(rows,headers) {
-//     const invertedIndex = new Map();
-//     rows.forEach((row, rowIndex) => {
-//       row._rawData.forEach((value, i) => {
-//         if (!invertedIndex.has(headers[i]+value)) {
-//           invertedIndex.set(headers[i]+value, [rowIndex]);
-//         } else {
-//           invertedIndex.get(headers[i]+value).push(rowIndex);
-//         }
-//       });
-//     });
-//     return invertedIndex
-//   }
-// const convertDataToColumn = (rows, header) => {
-//     const result = {}
-//     header.forEach((head) => {
-//         result[head] = []
-//     });
-//     rows.forEach((row) => {
-//         header.forEach((head, j) => {
-//             const cellValue = row._rawData[j] !== undefined ? row._rawData[j] : ""
 
-//             result[head].push(cellValue)
-//         });
-//     });
-//     return JSON.stringify(result)
-// }
 
 module.exports = { getSheet, updateSheet, updateSheetIndex};

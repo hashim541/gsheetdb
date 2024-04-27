@@ -1,10 +1,13 @@
 const { getSheet, updateSheet,updateSheetIndex} = require('../utils/authSheet')
 
 const createOne = async (req, res) => {
+
     req.body.apikey = req.headers["apikey"];
+
     const reqData = req.body;
     const key = reqData.query.unique;
     const value = reqData.data[key];
+
     const sheet = await getSheet(reqData, res);
     const {  schema,schemaKeys, rows } = sheet;
   
@@ -47,11 +50,13 @@ const createOne = async (req, res) => {
 const createMany = async (req, res) => {
     
     req.body.apikey = req.headers['apikey'];
+
     const reqData = req.body;
     const key = reqData.query.unique|| '';
     const sheet = await getSheet(reqData, res);
     let dataCreated = 0;
     let dataAlreadyExists = 0;
+
     const { _headerValues,schema, schemaKeys,rows } = sheet;
 
     try {
@@ -59,7 +64,7 @@ const createMany = async (req, res) => {
             throw new Error('data: must be an array')
         }
         if(key.length !== 0 && schemaKeys[key] === undefined){
-            throw new Error(`${key} is not in header`)
+            throw new Error(`${key} is not a header`)
         }
         if (sheet) {
             if (key.length === 0) {
