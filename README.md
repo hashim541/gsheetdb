@@ -54,8 +54,11 @@ Once you have completed Step 1 and Step 2, you are ready to query and use the sp
 |   /deleteOne      |   This endpoint deletes a single row of data in the spreadsheet   |  
 |   /deleteMany     |   This endpoint deletes multiple rows of data in the spreadsheet  |  
   
+  
 
 There are also aggregate functions available for performing calculations on your spreadsheet data. You can use the endpoint **https://gsheetdb.onrender.com/query/aggregate/** to access these functions.  
+  
+
 For example, if you need to count the number of records, you can use the endpoint **https://gsheetdb.onrender.com/query/aggregate/count**.
 
   
@@ -81,9 +84,57 @@ headers: {
 In the body, add:  
 ```javascript
 body: JSON.stringify({
-    spreadSheetId: '11V0iILqRDt-K0NX6TH74YKGsE12-P-a-q-xQfTRGw2g', // this is the unique spreadsheet id. You can find your own spreadsheet id in the URL of your spreadsheet.
-    sheetIndex: 0 // Your spreadsheet can contain multiple sheets, each with a unique index from 0 to n.
+    spreadSheetId: '11V0iILqRDt-K0NX6TH74YKGsE12-P-a-q-xQfTRGw2g', 
+    // this is the unique spreadsheet id. You can find your own spreadsheet id in the URL of your spreadsheet.
+    sheetIndex: 0 ,
+    // Your spreadsheet can contain multiple sheets, each with a unique index from 0 to n.
+    query:{}
 })
 ```  
 
 This information ensures that your request is properly formatted and includes necessary details for accessing the spreadsheet data. Make sure to replace `'yourapikey'` with your actual API key.
+
+Lets take an example **Spread Sheet**  
+
+
+| **EEID:string**   |   **FullName:string**   |   **AnnualSalary:number**   |   **Friends:array**   |
+|:-----------------:|:-----------------------:|:---------------------------:|:---------------------:|
+| E02387 | Emily Davis      | 141604 | [] |
+| E02572 | Luna Sanders     | 163099 | [] |
+| E02832 | Penelope Jordan  | 84913  | [] |
+| E01639 | Austin Vo        | 95409  | [] |
+| E00644 | Joshua Gupta     | 50994  | [] |
+| E01550 | Ruby Barnes      | 119746 | [] |
+| E04332 | Luke Martin      | 41336  | [] |
+
+
+**findOne**
+```javascript
+const options = {
+      method:'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey':'yourapikey'
+      },
+      body:JSON.stringify({    
+        spreadSheetId:'11V0iILqRDt-K0NX6TH74YKGsE12-P-a-q-xQfTRGw2g',
+        sheetIndex:0,
+        query:{
+          header:'AnnualSalary',
+          value:100000,
+          where:'>',
+          return:[],
+          sort:"_rowNumber:asc"
+        },
+      })
+    }
+    
+
+try {
+    const response = await fetch('https://gsheetdb.onrender.com/query/findOne',options)
+    const data = await response.json()
+    console.log(JSON.stringify(data))
+} catch (error) {
+    console.error('Error:', error.message);
+}
+```
