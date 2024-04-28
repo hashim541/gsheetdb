@@ -94,6 +94,19 @@ body: JSON.stringify({
 
 This information ensures that your request is properly formatted and includes necessary details for accessing the spreadsheet data. Make sure to replace `'yourapikey'` with your actual API key.
 
+There are few key value pairs that should be added inside query object  
+
+| **Key** | **Value** |
+|:-------------:|:----------------|
+| header        | cloumn name in string |
+| value         | it can be number,string,boolean,array and object.(value should correspond with header's datatype) |
+| unique        | it inputs column name as a string (it is used in createOne and createMany). |
+| where         | it is relational operator that compares vales of 'header' and 'value'.it can be multiple values, it differ depending on the datatype.("<=", ">=", "<", ">", "!=", "between", "isEmpty") |  
+| return        | it is an array of string each string represents column name that you want to return |  
+| sort          | it takes string column name and order of sort ("AnnualSalary:number") |  
+
+
+
 Lets take an example **Spread Sheet**  
 
 
@@ -106,6 +119,7 @@ Lets take an example **Spread Sheet**
 | E00644 | Joshua Gupta     | 50994  | ["E00591","E00699"] |
 | E01550 | Ruby Barnes      | 119746 | [] |
 | E04332 | Luke Martin      | 41336  | ["E02832"] |
+
 
 
 **findOne**
