@@ -92,18 +92,49 @@ body: JSON.stringify({
 })
 ```  
 
-This information ensures that your request is properly formatted and includes necessary details for accessing the spreadsheet data. Make sure to replace `'yourapikey'` with your actual API key.
+This information ensures that your request is properly formatted and includes necessary details for accessing the spreadsheet data. Make sure to replace `'yourapikey'` with your actual API key.  
 
-There are few key value pairs that should be added inside query object  
+There are few key-value pairs that should be added inside the query object:
 
 | **Key** | **Value** |
 |:-------------:|:----------------|
-| header        | cloumn name in string |
-| value         | it can be number,string,boolean,array and object.(value should correspond with header's datatype) |
-| unique        | it inputs column name as a string (it is used in createOne and createMany). |
-| where         | it is relational operator that compares vales of 'header' and 'value'.it can be multiple values, it differ depending on the datatype.("<=", ">=", "<", ">", "!=", "between", "isEmpty") |  
-| return        | it is an array of string each string represents column name that you want to return |  
-| sort          | it takes string column name and order of sort ("AnnualSalary:number") |  
+| header        | Column name in string |
+| value         | It can be number, string, boolean, array, or object. (Value should correspond with the header's datatype) |
+| unique        | It inputs a column name as a string (used in createOne and createMany). |
+| where         | It is a relational operator that compares values of 'header' and 'value'. It can have multiple values, differing depending on the datatype. ("<=", ">=", "<", ">", "!=", "between", "isEmpty") |  
+| return        | An array of strings, each representing a column name that you want to return |  
+| sort          | Takes a string column name and order of sort ("AnnualSalary:number") |  
+  
+### Supported Where Conditions for Specific Data Types
+Here's a breakdown of where conditions that can be used with specific data types:
+  
+| **Data Type** | **Symbol** | **Explanation**                              |
+|:--------------|:-----------|:---------------------------------------------|
+| number        | ==         | Equal to                                     |
+|               | !=         | Not equal to                                 |
+|               | <=         | Less than or equal to                        |
+|               | >=         | Greater than or equal to                     |
+|               | <          | Less than                                    |
+|               | >          | Greater than                                 |
+|               | between    | Between two values                           |
+|               | isEmpty    | Indicates if the value is empty              |
+| string        | ==         | Equal to                                     |
+|               | !=         | Not equal to                                 |
+|               | includes   | Contains the specified substring             |
+|               | !includes  | Does not contain the specified substring     |
+|               | startsWith | Starts with the specified substring          |
+|               | endsWith   | Ends with the specified substring            |
+|               | isEmpty    | Indicates if the value is empty              |
+| boolean       | ==         | Equal to                                     |
+|               | !=         | Not equal to                                 |
+|               | isEmpty    | Indicates if the value is empty              |
+| array         | includes   | Contains the specified value                 |
+|               | !includes  | Does not contain the specified value         |
+|               | isEmpty    | Indicates if the array is empty              |
+| object        | hasKey     | Contains the specified key                   |
+|               | !hasKey    | Does not contain the specified key           |
+|               | isEmpty    | Indicates if the object is empty             |
+
 
 
 
