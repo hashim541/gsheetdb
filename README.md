@@ -40,15 +40,15 @@ To understand the correct syntax for header rows, you can refer to this
 
 Once you have completed Step 1 and Step 2, you are ready to query and use the spreadsheet as a database. Below are the endpoints you need to know to interact with the spreadsheet:
 
-+-------------------+-------------------------------------------------------------------+
-|   **ENDPOINT**    |           **DESCRIPTION**                                         |
-|-------------------+-------------------------------------------------------------------+
-|   /findOne        |   This endpoint finds a single data entry in the spreadsheet      |
-|   /findMany       |   This endpoint finds multiple data entries in the spreadsheet    |
-|   /createOne      |   This endpoint creates a single row of data in the spreadsheet   |
-|   /createMany     |   This endpoint creates multiple rows of data in the spreadsheet  |
-|   /updateOne      |   This endpoint updates a single row of data in the spreadsheet   |
-|   /updateMany     |   This endpoint updates multiple rows of data in the spreadsheet  |
-|   /deleteOne      |   This endpoint deletes a single row of data in the spreadsheet   |
-|   /deleteMany     |   This endpoint deletes multiple rows of data in the spreadsheet  |
-+-------------------+-------------------------------------------------------------------+
++-------------------+-------------------------------------------------------------------+  
+|   **ENDPOINT**    |           **DESCRIPTION**                                         |  
+|-------------------+-------------------------------------------------------------------+  
+|   /findOne        |   This endpoint finds a single data entry in the spreadsheet      |  
+|   /findMany       |   This endpoint finds multiple data entries in the spreadsheet    |  
+|   /createOne      |   This endpoint creates a single row of data in the spreadsheet   |  
+|   /createMany     |   This endpoint creates multiple rows of data in the spreadsheet  |  
+|   /updateOne      |   This endpoint updates a single row of data in the spreadsheet   |  
+|   /updateMany     |   This endpoint updates multiple rows of data in the spreadsheet  |  
+|   /deleteOne      |   This endpoint deletes a single row of data in the spreadsheet   |  
+|   /deleteMany     |   This endpoint deletes multiple rows of data in the spreadsheet  |  
++-------------------+-------------------------------------------------------------------+  
