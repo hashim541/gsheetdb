@@ -99,13 +99,13 @@ Lets take an example **Spread Sheet**
 
 | **EEID:string**   |   **FullName:string**   |   **AnnualSalary:number**   |   **Friends:array**   |
 |:-----------------:|:-----------------------:|:---------------------------:|:---------------------:|
-| E02387 | Emily Davis      | 141604 | [] |
-| E02572 | Luna Sanders     | 163099 | [] |
-| E02832 | Penelope Jordan  | 84913  | [] |
-| E01639 | Austin Vo        | 95409  | [] |
-| E00644 | Joshua Gupta     | 50994  | [] |
+| E02387 | Emily Davis      | 141604 | ["E01639","E04332","E00591"] |
+| E02572 | Luna Sanders     | 163099 | ["E04533"] |
+| E02832 | Penelope Jordan  | 84913  | ["E01550","E00591"] |
+| E01639 | Austin Vo        | 95409  | ["E00716","E00699","E00502"] |
+| E00644 | Joshua Gupta     | 50994  | ["E00591","E00699"] |
 | E01550 | Ruby Barnes      | 119746 | [] |
-| E04332 | Luke Martin      | 41336  | [] |
+| E04332 | Luke Martin      | 41336  | ["E02832"] |
 
 
 **findOne**
