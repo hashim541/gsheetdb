@@ -32,3 +32,7 @@ Example: "username:string", "isOnline:bool", "phoneNo:array", etc.
 * object: Represents an object containing key-value pairs.  
 Ensure that your spreadsheet adheres to the specified format before proceeding to use it as a database API.
 
+### Sample Spread Sheet
+To understand the correct syntax for header rows, you can refer to this
+[link](https://docs.google.com/spreadsheets/d/11V0iILqRDt-K0NX6TH74YKGsE12-P-a-q-xQfTRGw2g/edit#gid=670927116).
+
