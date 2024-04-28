@@ -40,6 +40,8 @@ To understand the correct syntax for header rows, you can refer to this
 
 Once you have completed Step 1 and Step 2, you are ready to query and use the spreadsheet as a database. Below are the endpoints you need to know to interact with the spreadsheet:
 
+- **Live API**: You can access the live API at **https://gsheetdb.onrender.com**. This API allows you to perform CRUD operations on your Google Sheets data.
+- **Example Query findOne Endpoint**: To find a single data entry in the spreadsheet, you can use the findOne endpoint. The URL for querying findOne is **https://gsheetdb.onrender.com/query/findOne**.  
    
 |   **ENDPOINT**    |           **DESCRIPTION**                                         |  
 |-------------------|-------------------------------------------------------------------|  
@@ -51,4 +53,37 @@ Once you have completed Step 1 and Step 2, you are ready to query and use the sp
 |   /updateMany     |   This endpoint updates multiple rows of data in the spreadsheet  |  
 |   /deleteOne      |   This endpoint deletes a single row of data in the spreadsheet   |  
 |   /deleteMany     |   This endpoint deletes multiple rows of data in the spreadsheet  |  
+  
 
+There are also aggregate functions available for performing calculations on your spreadsheet data. You can use the endpoint **https://gsheetdb.onrender.com/query/aggregate/** to access these functions.  
+For example, if you need to count the number of records, you can use the endpoint **https://gsheetdb.onrender.com/query/aggregate/count**.
+
+  
+| **Aggregate Functions** |   **DESCRIPTION**                                                     |
+|-------------------------|-----------------------------------------------------------------------|
+|      /count             |   Returns the count of total rows                                     |
+|      /average           |   Returns the average value of a specified column in the spreadsheet  |
+|      /sum               |   Returns the sum of values in a specified column of the spreadsheet  |
+|      /min               |   Returns the minimum value of a specified column in the spreadsheet  |
+|      /max               |   Returns the maximum value of a specified column in the spreadsheet  |
+
+
+Before sending a request, make sure to include the following:
+
+In the header, add:
+
+```javascript
+headers: {
+    'Content-Type': 'application/json',
+    'apikey': 'yourapikey'
+}
+```  
+In the body, add:  
+```javascript
+body: JSON.stringify({
+    spreadSheetId: '11V0iILqRDt-K0NX6TH74YKGsE12-P-a-q-xQfTRGw2g', // this is the unique spreadsheet id. You can find your own spreadsheet id in the URL of your spreadsheet.
+    sheetIndex: 0 // Your spreadsheet can contain multiple sheets, each with a unique index from 0 to n.
+})
+```  
+
+This information ensures that your request is properly formatted and includes necessary details for accessing the spreadsheet data. Make sure to replace `'yourapikey'` with your actual API key.
