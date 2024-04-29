@@ -13,6 +13,9 @@ const middleware = (req, res, next) => {
     if(body.sheetIndex < 0){
         return res.status(403).json('SHEET INDEX cannot be negative')
     }
+    if(typeof body.header != 'string'){
+        return res.status(403).json('header key must be a string')
+    }
 
     if(body.sort != undefined){
         const sortArray=['asc','desc']

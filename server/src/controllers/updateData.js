@@ -31,7 +31,7 @@ const updateOne = async(req, res) => {
                 updateSheetIndex(reqData,sheet,row)
                 return res.status(200).json('data updated')
             }else{
-                return res.status(404).json(null);
+                return res.status(200).json(`No data found with ${key} ${where} ${value}`);
             }
         }
     } catch (error) {
@@ -65,7 +65,7 @@ const updateMany = async(req, res) => {
 
             const row = whereQuery( rows, key, keyType, value, where, type )
             if(row.length <= 0){
-                return res.status(400).json(`couldn't find data with ${key} == ${value}`)
+                return res.status(200).json(`No data found with ${key} ${where} ${value}`);
             }
             const result = checkType(reqData.data, schema, schemaKeys)
             const rowsToUpdate=[]

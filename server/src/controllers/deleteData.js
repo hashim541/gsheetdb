@@ -1,10 +1,13 @@
 const { getSheet, updateSheet} = require('../utils/authSheet')
+const whereQuery = require('../utils/whereQuery')
 
 const deleteOne = async(req, res) => {
     req.body.apikey = req.headers["apikey"];
     const reqData = req.body;
     const key = reqData.query.header || '';
     const value = reqData.query.value || '';
+    const where = reqData.query.where || '==';
+    const type = 'one'
     const sheet = await getSheet(reqData, res);
     try {
         if(sheet){
@@ -14,13 +17,13 @@ const deleteOne = async(req, res) => {
                 throw new Error(`${key} is not in header`)
             }
 
-            const row = rows.find((row) => row.get(`${key}:${keyType}`) == value)
+            const row = whereQuery( rows, key, keyType, value, where, type )
             if(row){
                 await row.delete()
                 updateSheet(reqData,sheet)
                 return res.status(200).json('data deleted')
             }else{
-                return res.status(404).json(null);
+                return res.status(200).json(`No data found with ${key} ${where} ${value}`);
             }
         }
     } catch (error) {
@@ -34,6 +37,8 @@ const deleteMany = async(req, res) => {
     const reqData = req.body;
     const key = reqData.query.header || '';
     const value = reqData.query.value || '';
+    const where = reqData.query.where || '==';
+    const type = 'many'
     const sheet = await getSheet(reqData, res);
     try {
         if(sheet){
@@ -43,15 +48,14 @@ const deleteMany = async(req, res) => {
                 throw new Error(`${key} is not in header`)
             }
 
-            const row = rows.filter((row) => row.get(`${key}:${keyType}`) == value)
-            if(row.length <= 0){
-                throw new Error(`couldn't find data with ${key} == ${value}`)
+            const row = whereQuery( rows, key, keyType, value, where, type )
+            if(row.length == 0){
+                return res.status(200).json(`No data found with ${key} ${where} ${value}`)
             }
             const rowsToUpdate=[]
             row.map((eachData,i)=>{
                 rowsToUpdate.push(eachData.delete())
             })
-            console.log(row.length,rowsToUpdate.length)
             await Promise.all(rowsToUpdate)
             updateSheet(reqData,sheet)
             return res.status(200).json('data deleted')

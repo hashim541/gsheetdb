@@ -326,7 +326,6 @@ data:{
 ```
 ### Response
 ```json
-//it dosen't create new data
 "Data already exists with E04332"
 ```
 if uque is empty string 
@@ -371,4 +370,225 @@ data:[
 ### Response
 ```json
 "Data created: 1, Data already exists: 1"
+```
+### updateOne
+```javascript
+const url='https://gsheetdb.onrender.com/query/updateOne'
+```
+```javascript
+const options = {
+      method:'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey':'yourapikey'
+      },
+      body:JSON.stringify({    
+        spreadSheetId:'11V0iILqRDt-K0NX6TH74YKGsE12-P-a-q-xQfTRGw2g',
+        sheetIndex:0,
+        query:{
+          header:"EEID",
+          value:"E02387",
+          where:"=="
+        },
+        data:{
+          AnnualSalary: 750000,
+        }
+      })
+    }
+try {
+    const response = await fetch(url,options)
+    const data = await response.json()
+    console.log(data)
+} catch (error) {
+    console.error('Error:', error.message);
+}
+```
+### Response
+```json
+"data updated"
+```
+it updates data in table
+| **EEID:string**   |   **FullName:string**   |   **AnnualSalary:number**   |   **Friends:array**   |
+|:-----------------:|:-----------------------:|---------------------------:|:---------------------|
+| E02387 | Emily Davis      | **750000** | ["E01639","E04332","E00591"] |
+
+### updateMany
+```javascript
+const url='https://gsheetdb.onrender.com/query/updateMany'
+```
+```javascript
+query:{
+  header:"AnnualSalary",
+  value:100000,
+  where:"<"
+},
+data:{
+  AnnualSalary: 750000,
+}
+```
+### Response
+```json
+"data updated"
+```
+| **EEID:string**   |   **FullName:string**   |   **AnnualSalary:number**   |   **Friends:array**   |
+|:-----------------:|:-----------------------:|---------------------------:|:---------------------|
+| E02387 | Emily Davis      | **750000** | ["E01639","E04332","E00591"] |
+| E02572 | Luna Sanders     | 163099 | ["E04533"] |
+| E02832 | Penelope Jordan  | **100000**  | ["E01550","E00591"] |
+| E01639 | Austin Vo        | **100000**  | ["E00716","E00699","E00502"] |
+| E00644 | Joshua Gupta     | **100000**  | ["E00591","E00699"] |
+| E01550 | Ruby Barnes      | 119746 | [] |
+| E04332 | Luke Martin      | **100000**  | ["E02832"] |
+
+### deleteOne
+```javascript
+const url='https://gsheetdb.onrender.com/query/deleteOne'
+```
+```javascript
+const options = {
+      method:'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey':'yourapikey'
+      },
+      body:JSON.stringify({    
+        spreadSheetId:'11V0iILqRDt-K0NX6TH74YKGsE12-P-a-q-xQfTRGw2g',
+        sheetIndex:0,
+        query:{
+          header:"AnnualSalary",
+          value:100000,
+          where:"=="
+        }
+      })
+    }
+try {
+    const response = await fetch(url,options)
+    const data = await response.json()
+    console.log(data)
+} catch (error) {
+    console.error('Error:', error.message);
+}
+```
+### Response
+```json
+"data deleted"
+```
+| **EEID:string**   |   **FullName:string**   |   **AnnualSalary:number**   |   **Friends:array**   |
+|:-----------------:|:-----------------------:|---------------------------:|:---------------------|
+| E02387 | Emily Davis      | 750000 | ["E01639","E04332","E00591"] |
+| E02572 | Luna Sanders     | 163099 | ["E04533"] |
+| E01639 | Austin Vo        | 100000  | ["E00716","E00699","E00502"] |
+| E00644 | Joshua Gupta     | 100000  | ["E00591","E00699"] |
+| E01550 | Ruby Barnes      | 119746 | [] |
+| E04332 | Luke Martin      | 100000  | ["E02832"] |
+
+
+**Note :**deleteMany dosen't gaurentee that it deletes all the data
+### deleteMany
+```javascript
+const url='https://gsheetdb.onrender.com/query/deleteMany'
+```
+```javascript
+query:{
+  header:"AnnualSalary",
+  value:100000,
+  where:"=="
+}
+```
+### Response
+```json
+"data deleted"
+```
+| **EEID:string**   |   **FullName:string**   |   **AnnualSalary:number**   |   **Friends:array**   |
+|:-----------------:|:-----------------------:|---------------------------:|:---------------------|
+| E02387 | Emily Davis      | 750000 | ["E01639","E04332","E00591"] |
+| E02572 | Luna Sanders     | 163099 | ["E04533"] |
+| E01550 | Ruby Barnes      | 119746 | [] |
+
+## Aggregate Functions
+let's consodet this table
+| **EEID:string**   |   **FullName:string**   |   **AnnualSalary:number**   |   **Friends:array**   |
+|:-----------------:|:-----------------------:|---------------------------:|:---------------------|
+| E02387 | Emily Davis      | 141604 | ["E01639","E04332","E00591"] |
+| E02572 | Luna Sanders     | 163099 | ["E04533"] |
+| E02832 | Penelope Jordan  | 84913  | ["E01550","E00591"] |
+| E01639 | Austin Vo        | 95409  | ["E00716","E00699","E00502"] |
+| E00644 | Joshua Gupta     | 50994  | ["E00591","E00699"] |
+| E01550 | Ruby Barnes      | 119746 | [] |
+| E04332 | Luke Martin      | 41336  | ["E02832"] |
+**Note :** header takes value when header is type of number
+## count
+```javascript
+const url='https://gsheetdb.onrender.com/query/aggregate/count'
+```
+```javascript
+query:{
+  header:"AnnualSalary",
+}
+```
+### Response
+```json
+{
+  "count":7
+}
+```
+## sum
+```javascript
+const url='https://gsheetdb.onrender.com/query/aggregate/sum'
+```
+```javascript
+query:{
+  header:"AnnualSalary",
+}
+```
+### Response
+```json
+{
+  "sum":697101
+}
+```
+## average
+```javascript
+const url='https://gsheetdb.onrender.com/query/aggregate/average'
+```
+```javascript
+query:{
+  header:"AnnualSalary",
+}
+```
+### Response
+```json
+{
+  "average":99585.85714
+}
+```
+## min
+```javascript
+const url='https://gsheetdb.onrender.com/query/aggregate/min'
+```
+```javascript
+query:{
+  header:"AnnualSalary",
+}
+```
+### Response
+```json
+{
+  "min":41336
+}
+```
+## max
+```javascript
+const url='https://gsheetdb.onrender.com/query/aggregate/max'
+```
+```javascript
+query:{
+  header:"AnnualSalary",
+}
+```
+### Response
+```json
+{
+  "max":163099
+}
 ```
