@@ -67,4 +67,9 @@ function pingServer() {
         console.error(`Ping failed: ${err.message}`);
     });
 }
-setInterval(pingServer, 300000);
+
+const interval = setInterval(pingServer, 300000)
+setTimeout(() => {
+    clearInterval(interval)
+    console.log('Pinging stopped after 1 hour')
+}, 3600000)
