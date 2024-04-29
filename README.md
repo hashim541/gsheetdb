@@ -483,7 +483,7 @@ try {
 | E04332 | Luke Martin      | 100000  | ["E02832"] |
 
 
-**Note :**deleteMany dosen't gaurentee that it deletes all the data
+**Note :** deleteMany dosen't gaurentee that it deletes all the data
 ### deleteMany
 ```javascript
 const url='https://gsheetdb.onrender.com/query/deleteMany'
@@ -515,7 +515,8 @@ let's consodet this table
 | E01639 | Austin Vo        | 95409  | ["E00716","E00699","E00502"] |
 | E00644 | Joshua Gupta     | 50994  | ["E00591","E00699"] |
 | E01550 | Ruby Barnes      | 119746 | [] |
-| E04332 | Luke Martin      | 41336  | ["E02832"] |
+| E04332 | Luke Martin      | 41336  | ["E02832"] |  
+
 **Note :** header takes value when header is type of number
 ## count
 ```javascript
