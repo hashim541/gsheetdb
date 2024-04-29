@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const compression = require('compression')
 const morgan = require('morgan')
+const https = require('https');
 
 
 const middleware = require('./utils/middleware')
@@ -57,13 +58,13 @@ app.listen(port,() => {
     console.log(`server running on port ${port}`)
 })
 
-// function printMemoryUsage() {
-//   const memoryUsage = process.memoryUsage();
-//   const usedMB = Math.round(memoryUsage.rss / 1024 / 1024);
-//   const heapUsedMB = Math.round(memoryUsage.heapUsed / 1024 / 1024);
-  
-//   console.log(`Memory Usage: ${usedMB} MB`);
-//   console.log(`Heap Used: ${heapUsedMB} MB`);
-// }
+const serverUrl = 'https://gsheetdb.onrender.com';
 
-// setInterval(printMemoryUsage, 60 * 1000);
+function pingServer() {
+    https.get(serverUrl, (res) => {
+        console.log(`Ping successful at ${new Date().toISOString()}`);
+    }).on('error', (err) => {
+        console.error(`Ping failed: ${err.message}`);
+    });
+}
+setInterval(pingServer, 300000);
