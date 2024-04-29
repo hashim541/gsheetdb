@@ -481,6 +481,8 @@ try {
 | E00644 | Joshua Gupta     | 100000  | ["E00591","E00699"] |
 | E01550 | Ruby Barnes      | 119746 | [] |
 | E04332 | Luke Martin      | 100000  | ["E02832"] |  
+  
+
 **Note :** deleteMany dosen't gaurentee that it deletes all the data
 ### deleteMany
 ```javascript
