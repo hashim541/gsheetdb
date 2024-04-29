@@ -59,7 +59,7 @@ export const AppProvider = ({ children }) => {
         }
         const options ={
             method:'POST',
-            url:url+'/user/'+authType,
+            url:lurl+'/user/'+authType,
             headers: {'Content-Type': 'application/json'},
             data:JSON.stringify(data)
         }
@@ -88,7 +88,7 @@ export const AppProvider = ({ children }) => {
         }
         const options ={
             method:'POST',
-            url:url+'/user/getapikey',
+            url:lurl+'/user/getapikey',
             headers: {'Content-Type': 'application/json'},
             data:JSON.stringify(data)
         }
@@ -123,7 +123,7 @@ export const AppProvider = ({ children }) => {
         }
         const options ={
             method:'POST',
-            url:url+'/user/toggleApikeyState',
+            url:lurl+'/user/toggleApikeyState',
             headers: {'Content-Type': 'application/json'},
             data:JSON.stringify(data)
         }
@@ -145,7 +145,7 @@ export const AppProvider = ({ children }) => {
         }
         const options ={
             method:'POST',
-            url:url+'/user/deleteApikey',
+            url:lurl+'/user/deleteApikey',
             headers: {'Content-Type': 'application/json'},
             data:JSON.stringify(data)
         }
