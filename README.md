@@ -180,12 +180,12 @@ const options = {
 try {
     const response = await fetch(url,options)
     const data = await response.json()
-    console.log(JSON.stringify(data))
+    console.log(data)
 } catch (error) {
     console.error('Error:', error.message);
 }
 ```
-### FINDONE
+### findOne
 ```javascript
 const url='https://gsheetdb.onrender.com/query/findOne'
 ```
@@ -199,7 +199,7 @@ const url='https://gsheetdb.onrender.com/query/findOne'
   "Friends": ["E01639","E04332","E00591"]
 }
 ```
-### FINDMANY
+### findMany
 ```javascript
 const url='https://gsheetdb.onrender.com/query/findMany'
 ```
@@ -271,5 +271,104 @@ query:{
     "Friends": ["E02832"]
   },
 ]
+```
+### Create data in table
 
+```javascript
+const options = {
+      method:'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey':'yourapikey'
+      },
+      body:JSON.stringify({    
+        spreadSheetId:'11V0iILqRDt-K0NX6TH74YKGsE12-P-a-q-xQfTRGw2g',
+        sheetIndex:0,
+        query:{
+          unique:'EEID',
+        },
+        data:{
+          EEID: "E12345",
+          FullName: "John Doe",
+          AnnualSalary: 75000,
+          Friends: ["E67890", "E54321"]
+        }
+      })
+    }
+
+try {
+    const response = await fetch(url,options)
+    const data = await response.json()
+    console.log(data)
+} catch (error) {
+    console.error('Error:', error.message);
+}
+```
+### createOne
+```javascript
+const url='https://gsheetdb.onrender.com/query/createOne'
+```
+### Response
+```json
+"Data created"
+```
+if you try to create a data which is already exists
+```javascript
+query:{
+  unique:'EEID',
+},
+data:{
+  EEID: "E04332",
+  FullName: "Luke Martin",
+  AnnualSalary: 41336,
+  Friends: ["E02832"]
+}
+```
+### Response
+```json
+//it dosen't create new data
+"Data already exists with E04332"
+```
+if uque is empty string 
+```javascript
+query:{
+  unique:'',
+},
+data:{
+  EEID: "E04332",
+  FullName: "Luke Martin",
+  AnnualSalary: 41336,
+  Friends: ["E02832"]
+}
+```
+### Response
+```json
+"Data created"
+```
+### createMany
+```javascript
+const url='https://gsheetdb.onrender.com/query/createOne'
+```
+```javascript
+query:{
+  unique:'EEID',
+},
+data:[
+  {
+    "EEID": "E12345",
+    "FullName": "John Doe",
+    "AnnualSalary": 75000,
+    "Friends": ["E67890", "E54321"]
+  },
+  {
+    "EEID": "E67890",
+    "FullName": "Jane Smith",
+    "AnnualSalary": 85000,
+    "Friends": ["E12345", "E54321"]
+  }
+]
+```
+### Response
+```json
+"Data created: 1, Data already exists: 1"
 ```
