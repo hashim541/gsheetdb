@@ -102,10 +102,12 @@ There are few key-value pairs that should be added inside the query object:
 | value         | It can be number, string, boolean, array, or object. (Value should correspond with the header's datatype) |
 | unique        | It inputs a column name as a string (used in createOne and createMany). |
 | where         | It is a relational operator that compares values of 'header' and 'value'. It can have multiple values, differing depending on the datatype. ("<=", ">=", "<", ">", "!=", "between", "isEmpty") |  
-| return        | An array of strings, each representing a column name that you want to return |  
+| return        | An array of strings, each representing a column name that you want to return. if its empty return all of the column |  
 | sort          | Takes a string column name and order of sort ("AnnualSalary:number") |  
   
 ### Supported Where Conditions for Specific Data Types
+where clause compares all the values below the header with value  
+
 Here's a breakdown of where conditions that can be used with specific data types:
   
 | **Data Type** | **Symbol** | **Explanation**                              |
@@ -116,7 +118,7 @@ Here's a breakdown of where conditions that can be used with specific data types
 |               | >=         | Greater than or equal to                     |
 |               | <          | Less than                                    |
 |               | >          | Greater than                                 |
-|               | between    | Between two values                           |
+|               | between    | Represents a range between two values. The 'value' key in the query must have an array value that specifies the range [min, max].|
 |               | isEmpty    | Indicates if the value is empty              |
 | string        | ==         | Equal to                                     |
 |               | !=         | Not equal to                                 |
@@ -153,7 +155,8 @@ Lets take an example **Spread Sheet**
 
 
 
-**findOne**
+### Find data in table
+
 ```javascript
 const options = {
       method:'POST',
@@ -173,13 +176,100 @@ const options = {
         },
       })
     }
-    
 
 try {
-    const response = await fetch('https://gsheetdb.onrender.com/query/findOne',options)
+    const response = await fetch(url,options)
     const data = await response.json()
     console.log(JSON.stringify(data))
 } catch (error) {
     console.error('Error:', error.message);
 }
+```
+### FINDONE
+```javascript
+const url='https://gsheetdb.onrender.com/query/findOne'
+```
+### Output
+```json
+{
+  "_rowNumber": 2,
+  "EEID": "E02387",
+  "FullName": "Emily Davis",
+  "AnnualSalary": 141604,
+  "Friends": ["E01639","E04332","E00591"]
+}
+```
+### FINDMANY
+```javascript
+const url='https://gsheetdb.onrender.com/query/findMany'
+```
+### Response
+```json
+[
+  {
+    "_rowNumber": 2,
+    "EEID": "E02387",
+    "FullName": "Emily Davis",
+    "AnnualSalary": 141604,
+    "Friends": ["E01639","E04332","E00591"]
+  },
+  {
+    "_rowNumber": 3,
+    "EEID": "E02572",
+    "FullName": "Luna Sanders",
+    "AnnualSalary": 163099,
+    "Friends": ["E04533"]
+  },
+  {
+    "_rowNumber": 8,
+    "EEID": "E01550",
+    "FullName": "Ruby Barnes",
+    "AnnualSalary": 119746,
+    "Friends": []
+  }
+]
+```
+Lets see how would you use `between` 
+```javascript
+query:{
+  header:'AnnualSalary',
+  value:[50000,100000],
+  where:'between',
+  return:[],
+  sort:"_rowNumber:asc"
+}
+```
+### Response
+```javascript
+[
+  {
+    "_rowNumber": 4,
+    "EEID": "E02832",
+    "FullName": "Penelope Jordan",
+    "AnnualSalary": 84913,
+    "Friends": ["E01550","E00591"]
+  },
+  {
+    "_rowNumber": 5,
+    "EEID": "E01639",
+    "FullName": "Austin Vo",
+    "AnnualSalary": 95409,
+    "Friends": ["E00716","E00699","E00502"]
+  },
+  {
+    "_rowNumber": 6,
+    "EEID": "E00644",
+    "FullName": "Joshua Gupta",
+    "AnnualSalary": 50994,
+    "Friends": ["E00591","E00699"]
+  },
+  {
+    "_rowNumber": 7,
+    "EEID": "E04332",
+    "FullName": "Luke Martin",
+    "AnnualSalary": 41336,
+    "Friends": ["E02832"]
+  },
+]
+
 ```
