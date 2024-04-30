@@ -29,12 +29,12 @@ function App(){
 
 
               <Route path="/dashboard" element={<AuthRequired />}>
-                <Route path='' element={<Dashboard />} />
+                <Route path='/' element={<Dashboard />} />
                 <Route path="ApiKey" element={<Apikey/>}/>
                 <Route path='documentation' element={<Documentation/>}/> 
                 <Route path="setting" element={<Setting />}/>
               </Route>
-              <Route path='*' element={<Dashboard />} />
+              <Route path='*' element={<Navigate to="/dashboard" replace />} />
           </Routes>
         </Router>
       </AppProvider>
