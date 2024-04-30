@@ -4,15 +4,16 @@
   
 Welcome to the documentation for using Google Sheets as a Database API. This guide will walk you through the setup and usage of this API, allowing you to leverage Google Sheets as a Database for your applications.
   
+## Step 1: Create an account
+First you need to create an account. [Create Now](https://hashim541.github.io/gsheetdb/register)
+  
+## Step 2: Get API Key
+  
+Before using the Google Sheet as a Database API, you need to obtain an API key. This key will be used to authenticate your requests to the API. You can find your API key in the documentation dashboard at [Documentation](https://hashim541.github.io/gsheetdb/dashboard/documentation). Follow the provided instructions to retrieve your API key.
   
   
-## Step 1: Get API Key
   
-Before using the Google Sheet as a Database API, you need to obtain an API key. This key will be used to authenticate your requests to the API. You can find your API key in the documentation dashboard at [Documentation](https://localhost:3000/dashboard/documentation). Follow the provided instructions to retrieve your API key.
-  
-  
-  
-## Step 2: Setup Your Spreadsheet
+## Step 3: Setup Your Spreadsheet
 
 To use Google Sheets as a database, you need to set up your spreadsheet correctly. Follow the instructions below to ensure your spreadsheet is properly configured:
   
@@ -36,7 +37,7 @@ Ensure that your spreadsheet adheres to the specified format before proceeding t
 To understand the correct syntax for header rows, you can refer to this
 [link](https://docs.google.com/spreadsheets/d/11V0iILqRDt-K0NX6TH74YKGsE12-P-a-q-xQfTRGw2g/edit#gid=670927116).
 
-## Step 3: Querying the Spreadsheet
+## Step 4: Querying the Spreadsheet
 
 Once you have completed Step 1 and Step 2, you are ready to query and use the spreadsheet as a database. Below are the endpoints you need to know to interact with the spreadsheet:
 
