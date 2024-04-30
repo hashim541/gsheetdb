@@ -13,33 +13,67 @@ import { AppProvider } from './dataContext/AppContext';
 import AuthRequired from './AuthRequired';
 
 
-function App(){
-  return(
+// function App(){
+//   return(
+//     <>
+//       <AppProvider>
+//         <Notifications />
+//         <Router>
+//           <Routes>
+
+//               <Route path="/" element={<AuthRoutes/>}>
+//                 <Route  path='/' element={<LandingPage />} />
+//                 <Route path='/login' element={<LoginPage />}/>
+//                 <Route path='/register' element={<RegisterPage />} />
+//               </Route>
+
+
+//               <Route path="/dashboard" element={<AuthRequired />}>
+//                 <Route path='/' element={<Dashboard />} />
+//                 <Route path="ApiKey" element={<Apikey/>}/>
+//                 <Route path='documentation' element={<Documentation/>}/> 
+//                 <Route path="setting" element={<Setting />}/>
+//               </Route>
+//               <Route path='*' element={<Navigate to="/dashboard" replace />} />
+//           </Routes>
+//         </Router>
+//       </AppProvider>
+//     </>
+//   )
+// }
+function App() {
+  return (
     <>
       <AppProvider>
         <Notifications />
         <Router>
           <Routes>
+            {/* Authenticated routes */}
+            <Route path="/" element={<AuthRoutes />}>
+              {/* Landing page */}
+              <Route index element={<LandingPage />} />
+              {/* Other auth routes */}
+              <Route path="login" element={<LoginPage />} />
+              <Route path="register" element={<RegisterPage />} />
+            </Route>
 
-              <Route path="/" element={<AuthRoutes/>}>
-                <Route path='/' element={<LandingPage />} />
-                <Route path='/login' element={<LoginPage />}/>
-                <Route path='/register' element={<RegisterPage />} />
-              </Route>
+            {/* Dashboard routes */}
+            <Route path="/dashboard" element={<AuthRequired />}>
+              <Route index element={<Dashboard />} />
+              <Route path="ApiKey" element={<Apikey />} />
+              <Route path="documentation" element={<Documentation />} /> 
+              <Route path="setting" element={<Setting />} />
+            </Route>
 
-
-              <Route path="/dashboard" element={<AuthRequired />}>
-                <Route path='/' element={<Dashboard />} />
-                <Route path="ApiKey" element={<Apikey/>}/>
-                <Route path='documentation' element={<Documentation/>}/> 
-                <Route path="setting" element={<Setting />}/>
-              </Route>
-              <Route path='*' element={<Navigate to="/dashboard" replace />} />
+            {/* Fallback route */}
+            <Route path='*' element={<Navigate to="/dashboard" replace />} />
           </Routes>
         </Router>
       </AppProvider>
     </>
-  )
+  );
 }
+
+
 
 export default App
